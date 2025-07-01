@@ -9,3 +9,87 @@
 */
 
 #include "NoiseSynth.h"
+
+NoiseSynth::NoiseSynth()
+{
+    sampleRate = 44100.0;
+
+}
+
+void NoiseSynth::distributeResources(double sampleRate, int samplesPerBlock)
+{
+    sampleRate = this->sampleRate;
+    
+}
+
+void NoiseSynth::releaseResources()
+{
+    
+}
+
+void NoiseSynth::reset()
+{
+    voice.reset();
+
+}
+
+void NoiseSynth::render(float** outputBuffers, int sampleCount)
+{
+    float* outputBufferLeft = outputBuffers[0];
+    float* outputBufferRight = outputBuffers[1];
+    
+    for (int sample = 0; sample < sampleCount; sample++) {
+        
+        float output = voice.render();
+        
+        outputBufferLeft[sample] = output;
+        
+        if (outputBufferRight != nullptr) {
+            
+            outputBufferRight[sample] = output;
+        }
+    }
+    
+    protectMyEars(outputBufferLeft, sampleCount);
+    protectMyEars(outputBufferRight, sampleCount);
+    
+}
+
+void NoiseSynth::midiMessages(__UINT8_TYPE__ data0, __UINT8_TYPE__ data1, __UINT8_TYPE__ data2)
+{
+    switch (data0 & 0xF0){
+        case 0x80:
+            noteOff(data1 & 0x7f);
+            break;
+        case 0x90:
+            uint8_t note = data1 & 0x7F;
+            uint8_t velocity = data2 & 0x7F;
+            if (velocity > 0) {
+                noteOn(note, velocity);
+            }
+            else {
+                noteOff(note);
+            }
+            break;
+    }
+}
+
+void NoiseSynth::startVoice(int note, int velocity)
+{
+    voice.note = note;
+    voice.noise.setAmplitude(velocity / 127.0f);
+    
+}
+void NoiseSynth::noteOn(int note, int velocity)
+{
+    startVoice(note, velocity);
+    
+}
+void NoiseSynth::noteOff(int note)
+{
+    if (voice.note == note) {
+        voice.note = 0;
+    }
+    
+}
+

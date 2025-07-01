@@ -9,3 +9,28 @@
 */
 
 #pragma once
+#include "noiseGenerator.h"
+
+
+struct NoiseVoice
+{
+    NoiseGenerator noise;
+    int note;
+
+
+void reset()
+{
+    note = 0;
+    noise.setlevel(0.0f);
+    
+}
+
+float render()
+    {
+    float noiseSample = noise.getNextSample();
+    return noiseSample;
+}
+    
+};
+
+

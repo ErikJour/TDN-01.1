@@ -16,6 +16,8 @@ class NoiseGenerator
     
 public:
     
+    enum class NoiseType { white, pink, brown };
+    
     NoiseGenerator();
     ~NoiseGenerator();
     

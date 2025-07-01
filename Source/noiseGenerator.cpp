@@ -10,6 +10,7 @@
 
 #include "noiseGenerator.h"
 
+
 NoiseGenerator::NoiseGenerator() : noiseLevel(0.0f), 
                                     amplitude(0.0f) 
 {
