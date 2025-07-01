@@ -9,11 +9,12 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "NoiseSynth.h"
 
 //==============================================================================
 /**
 */
-class TDN01AudioProcessor  : public juce::AudioProcessor
+class TDN01AudioProcessor final  : public juce::AudioProcessor
 {
 public:
     //==============================================================================
@@ -23,13 +24,19 @@ public:
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
     void releaseResources() override;
+    void reset() override;
 
    #ifndef JucePlugin_PreferredChannelConfigurations
     bool isBusesLayoutSupported (const BusesLayout& layouts) const override;
    #endif
 
     void processBlock (juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
-
+//    using AudioProcessor::processBlock;
+    
+    void splitBufferByEvents(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages);
+    void handleMidi(uint8_t data0, uint8_t data1, uint8_t data2);
+    void render(juce::AudioBuffer<float>& buffer, int sampleCount, int bufferOffset);
+    
     //==============================================================================
     juce::AudioProcessorEditor* createEditor() override;
     bool hasEditor() const override;
@@ -52,8 +59,13 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
+    
+    NoiseSynth& getSynth() { return noiseSynth; }
 
 private:
+    
+    NoiseSynth noiseSynth;
+    
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TDN01AudioProcessor)
 };

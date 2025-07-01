@@ -19,7 +19,6 @@ NoiseSynth::NoiseSynth()
 void NoiseSynth::distributeResources(double sampleRate, int samplesPerBlock)
 {
     sampleRate = this->sampleRate;
-    
 }
 
 void NoiseSynth::releaseResources()
@@ -30,7 +29,6 @@ void NoiseSynth::releaseResources()
 void NoiseSynth::reset()
 {
     voice.reset();
-
 }
 
 void NoiseSynth::render(float** outputBuffers, int sampleCount)
@@ -44,6 +42,8 @@ void NoiseSynth::render(float** outputBuffers, int sampleCount)
         
         outputBufferLeft[sample] = output;
         
+//        DBG(outputBufferLeft[sample]);
+        
         if (outputBufferRight != nullptr) {
             
             outputBufferRight[sample] = output;
@@ -55,7 +55,7 @@ void NoiseSynth::render(float** outputBuffers, int sampleCount)
     
 }
 
-void NoiseSynth::midiMessages(__UINT8_TYPE__ data0, __UINT8_TYPE__ data1, __UINT8_TYPE__ data2)
+void NoiseSynth::midiMessages(uint8_t data0, uint8_t data1, uint8_t data2)
 {
     switch (data0 & 0xF0){
         case 0x80:

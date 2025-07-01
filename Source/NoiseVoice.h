@@ -21,12 +21,12 @@ struct NoiseVoice
 void reset()
 {
     note = 0;
-    noise.setlevel(0.0f);
+    noise.setlevel(0.2f);
     
 }
 
 float render()
-    {
+{
     float noiseSample = noise.getNextSample();
     return noiseSample;
 }

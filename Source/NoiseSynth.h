@@ -21,7 +21,7 @@ class NoiseSynth
         void releaseResources();
         void reset();
         void render(float** outputBuffers, int sampleCount);
-        void midiMessages(__UINT8_TYPE__ data0, __UINT8_TYPE__ data1, __UINT8_TYPE__ data2);
+        void midiMessages(uint8_t data0, uint8_t data1, uint8_t data2);
         void startVoice(int note, int velocity);
         void noteOn(int note, int velocity);
         void noteOff(int note);
