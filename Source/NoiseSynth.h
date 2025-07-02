@@ -25,6 +25,11 @@ class NoiseSynth
         void startVoice(int note, int velocity);
         void noteOn(int note, int velocity);
         void noteOff(int note);
+    
+        float envAttack;
+        float envDecay;
+        float envSustain;
+        float envRelease;
         
     private:
     

@@ -48,6 +48,10 @@ void NoiseSynth::render(float** outputBuffers, int sampleCount)
             
             outputBufferRight[sample] = output;
         }
+        
+        if (!voice.env.isActive()) {
+            voice.env.reset();
+        }
     }
     
     protectMyEars(outputBufferLeft, sampleCount);
@@ -78,6 +82,13 @@ void NoiseSynth::startVoice(int note, int velocity)
 {
     voice.note = note;
     voice.noise.setAmplitude(velocity / 127.0f);
+    
+    Envelope& env = voice.env;
+    env.attackMultiplier = envAttack;
+    env.decayMultiplier = envDecay;
+    env.sustainLevel = envSustain;
+    env.releaseMultiplier = envRelease;
+    env.attack();
     
 }
 void NoiseSynth::noteOn(int note, int velocity)

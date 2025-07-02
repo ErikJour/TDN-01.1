@@ -10,25 +10,31 @@
 
 #pragma once
 #include "noiseGenerator.h"
+#include "Envelope.h"
 
 
 struct NoiseVoice
 {
     NoiseGenerator noise;
     int note;
+    Envelope env;
+    
 
 
 void reset()
 {
     note = 0;
     noise.setlevel(0.2f);
+    env.reset();
     
 }
 
 float render()
 {
     float noiseSample = noise.getNextSample();
-    return noiseSample;
+    float envelope = env.nextValue();
+    float output = noiseSample * envelope;
+    return output;
 }
     
 };
