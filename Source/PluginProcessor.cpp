@@ -22,10 +22,18 @@ TDN01AudioProcessor::TDN01AudioProcessor()
                        )
 #endif
 {
+    apvts.state.addListener(this);
+    castParameter(apvts, ParameterID::envAttack, envAttackParam);
+    castParameter(apvts, ParameterID::envDecay, envDecayParam);
+    castParameter(apvts, ParameterID::envSustain, envSustainParam);
+    castParameter(apvts, ParameterID::envRelease, envReleaseParam);
+
 }
 
 TDN01AudioProcessor::~TDN01AudioProcessor()
 {
+    apvts.state.removeListener(this);
+
 }
 
 //==============================================================================
@@ -94,6 +102,7 @@ void TDN01AudioProcessor::changeProgramName (int index, const juce::String& newN
 void TDN01AudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     noiseSynth.distributeResources(sampleRate, samplesPerBlock);
+    parametersChanged.store(true);
     reset();
 }
 
@@ -142,7 +151,12 @@ void TDN01AudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; i++)
         buffer.clear(i, 0, buffer.getNumSamples());
         
-//    bool expected = true;
+    bool expected = true;
+
+        if (parametersChanged.compare_exchange_strong(expected, false))
+        {
+            update();
+        }
     
     splitBufferByEvents(buffer, midiMessages);
     
@@ -214,6 +228,77 @@ void TDN01AudioProcessor::setStateInformation (const void* data, int sizeInBytes
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+}
+
+juce::AudioProcessorValueTreeState::ParameterLayout
+    TDN01AudioProcessor::createParameterLayout()
+
+{
+        juce::AudioProcessorValueTreeState::ParameterLayout layout;
+        
+        //Env Attack
+        layout.add(std::make_unique<juce::AudioParameterFloat>(
+        ParameterID::envAttack,
+        "Env Attack",
+        juce::NormalisableRange<float>(0.0f, 100.0f, 1.0f),
+        20.0f,
+        juce::AudioParameterFloatAttributes().withLabel("%")
+        ));
+
+        //Env Decay
+        layout.add(std::make_unique<juce::AudioParameterFloat>(
+        ParameterID::envDecay,
+        "Env Decay",
+        juce::NormalisableRange<float>(0.0f, 100.0f, 1.0f),
+        50.0f,
+        juce::AudioParameterFloatAttributes().withLabel("%")
+        ));
+
+        //Env Sustain
+        layout.add(std::make_unique<juce::AudioParameterFloat>(
+        ParameterID::envSustain,
+        "Env Sustain",
+        juce::NormalisableRange<float>(0.0f, 100.0f, 1.0f),
+        0.0f,
+        juce::AudioParameterFloatAttributes().withLabel("%")
+        ));
+
+        //Env Release
+        layout.add(std::make_unique<juce::AudioParameterFloat>(
+        ParameterID::envRelease,
+        "Env Release",
+        juce::NormalisableRange<float>(0.0f, 100.0f, 1.0f),
+        50.0f,
+        juce::AudioParameterFloatAttributes().withLabel("%")
+        ));
+      
+        
+        return layout;
+}
+
+void TDN01AudioProcessor::update()
+{
+    float sampleRate = float(getSampleRate());
+    float inverseSampleRate = 1.0f / sampleRate;
+
+    //ADSR Controls
+    noiseSynth.envAttack = std::exp(-inverseSampleRate * std::exp(5.5f - 0.075f * envAttackParam->get()));
+    noiseSynth.envDecay = std::exp(-inverseSampleRate * std::exp(5.5f - 0.075f * envDecayParam->get()));
+    noiseSynth.envSustain = envSustainParam->get() / 100.0f;
+    float envRelease = envReleaseParam->get();
+
+    if (envRelease < 1.0f)
+      {
+          noiseSynth.envRelease = 0.75f;
+      }
+
+    else{
+          noiseSynth.envRelease = std::exp(-inverseSampleRate * std::exp(5.5f - 0.075f * envRelease));
+      }
+
+    float decayTime = envDecayParam->get() / 100.0f * 5.0f;
+    float decaySamples = sampleRate * decayTime;
+    noiseSynth.envDecay = std::exp(std::log(SILENCE) / decaySamples);
 }
 
 //==============================================================================

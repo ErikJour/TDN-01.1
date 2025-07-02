@@ -25,6 +25,10 @@ public:
 
 private:
     
+    using Resource = juce::WebBrowserComponent::Resource;
+    
+    std::optional<Resource> getResource(const juce::String& url);
+    
     TDN01AudioProcessor& audioProcessor;
     
     juce::WebBrowserComponent webViewGui;

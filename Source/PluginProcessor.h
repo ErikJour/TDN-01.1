@@ -10,11 +10,28 @@
 
 #include <JuceHeader.h>
 #include "NoiseSynth.h"
+#include "Utils.h"
+//==============================================================================
+
+namespace ParameterID {
+
+#define PARAMETER_ID(str) const juce::ParameterID str(#str, 1);
+
+PARAMETER_ID(envAttack)
+PARAMETER_ID(envDecay)
+PARAMETER_ID(envSustain)
+PARAMETER_ID(envRelease)
+
+#undef PARAMETER_ID
+
+}
+
 
 //==============================================================================
 /**
 */
-class TDN01AudioProcessor final  : public juce::AudioProcessor
+class TDN01AudioProcessor final  : public juce::AudioProcessor,
+                                    private juce::ValueTree::Listener
 {
 public:
     //==============================================================================
@@ -61,10 +78,31 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
     
     NoiseSynth& getSynth() { return noiseSynth; }
+    
+    juce::AudioProcessorValueTreeState apvts {*this, nullptr, "Parameters", createParameterLayout() };
+
 
 private:
     
     NoiseSynth noiseSynth;
+    //Params
+    juce::AudioParameterFloat* envAttackParam;
+    juce::AudioParameterFloat* envDecayParam;
+    juce::AudioParameterFloat* envSustainParam;
+    juce::AudioParameterFloat* envReleaseParam;
+    
+    juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
+
+    void valueTreePropertyChanged(juce::ValueTree&, const juce::Identifier&) override
+    {
+        DBG("Parameter changed");
+        parametersChanged.store(true);
+    }
+
+    void update();
+    
+    std::atomic<bool> parametersChanged { false };
+
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TDN01AudioProcessor)
