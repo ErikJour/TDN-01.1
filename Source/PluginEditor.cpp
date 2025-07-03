@@ -62,6 +62,8 @@ TDN01AudioProcessorEditor::TDN01AudioProcessorEditor (TDN01AudioProcessor& p)
     juce::String localServer = "http://localhost:5173/";
 //    webViewGui.goToURL(localServer);
     webViewGui.goToURL(webViewGui.getResourceProviderRoot());
+    
+    ampEnvAttackSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     setSize (800, 600);
 }
 
