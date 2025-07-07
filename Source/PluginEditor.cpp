@@ -58,10 +58,10 @@ TDN01AudioProcessorEditor::TDN01AudioProcessorEditor (TDN01AudioProcessor& p)
                 return getResource(url);
             })}
 {
-    addAndMakeVisible(webViewGui);
-    juce::String localServer = "http://localhost:5173/";
+//    addAndMakeVisible(webViewGui);
+//    juce::String localServer = "http://localhost:5173/";
 //    webViewGui.goToURL(localServer);
-    webViewGui.goToURL(webViewGui.getResourceProviderRoot());
+//    webViewGui.goToURL(webViewGui.getResourceProviderRoot());
     
     ampEnvAttackSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     setSize (800, 600);

@@ -27,7 +27,7 @@ TDN01AudioProcessor::TDN01AudioProcessor()
     castParameter(apvts, ParameterID::envDecay, envDecayParam);
     castParameter(apvts, ParameterID::envSustain, envSustainParam);
     castParameter(apvts, ParameterID::envRelease, envReleaseParam);
-
+    
 }
 
 TDN01AudioProcessor::~TDN01AudioProcessor()
@@ -182,6 +182,8 @@ void TDN01AudioProcessor::splitBufferByEvents(juce::AudioBuffer<float>& buffer, 
     
     for (const auto metadata : midiMessages) {
         
+        DBG("Received MIDI: " << (int)metadata.data[0]);
+        
         int samplesThisSegment = metadata.samplePosition - bufferOffset;
         
         if (samplesThisSegment > 0) {
@@ -272,7 +274,6 @@ juce::AudioProcessorValueTreeState::ParameterLayout
         juce::AudioParameterFloatAttributes().withLabel("%")
         ));
       
-        
         return layout;
 }
 
