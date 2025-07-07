@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="aWSGx6" name="TDN-01" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" companyName="Jourgensen Audio"
-              pluginCharacteristicsValue="pluginIsSynth">
+              pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn">
   <MAINGROUP id="lKGPww" name="TDN-01">
     <GROUP id="{34F787B4-23D8-C6C2-0890-84622656ADF3}" name="Helpers">
       <FILE id="LhiXMN" name="Utils.h" compile="0" resource="0" file="Source/Utils.h"/>

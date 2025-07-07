@@ -39,6 +39,7 @@ TDN01AudioProcessor::~TDN01AudioProcessor()
 //==============================================================================
 const juce::String TDN01AudioProcessor::getName() const
 {
+    juce::String pluginName {"TDN-01"};
     return JucePlugin_Name;
 }
 
@@ -87,15 +88,19 @@ int TDN01AudioProcessor::getCurrentProgram()
 
 void TDN01AudioProcessor::setCurrentProgram (int index)
 {
+    juce::ignoreUnused (index);
 }
 
 const juce::String TDN01AudioProcessor::getProgramName (int index)
 {
+    juce::ignoreUnused (index);
     return {};
 }
 
 void TDN01AudioProcessor::changeProgramName (int index, const juce::String& newName)
 {
+    juce::ignoreUnused (index, newName);
+
 }
 
 //==============================================================================
@@ -144,6 +149,8 @@ void TDN01AudioProcessor::handleMidi(uint8_t data0, uint8_t data1, uint8_t data2
 
 void TDN01AudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
+    juce::ignoreUnused (midiMessages);
+
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
@@ -182,7 +189,7 @@ void TDN01AudioProcessor::splitBufferByEvents(juce::AudioBuffer<float>& buffer, 
     
     for (const auto metadata : midiMessages) {
         
-        DBG("Received MIDI: " << (int)metadata.data[0]);
+//        DBG("Received MIDI: " << (int)metadata.data[0]);
         
         int samplesThisSegment = metadata.samplePosition - bufferOffset;
         

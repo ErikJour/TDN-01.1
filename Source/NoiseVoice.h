@@ -11,6 +11,7 @@
 #pragma once
 #include "noiseGenerator.h"
 #include "Envelope.h"
+#include "LFO.h"
 
 
 struct NoiseVoice
@@ -18,7 +19,7 @@ struct NoiseVoice
     NoiseGenerator noise;
     int note;
     Envelope env;
-    
+    LFO lfo;
 
 
 void reset()
@@ -26,6 +27,7 @@ void reset()
     note = 0;
     noise.setlevel(0.2f);
     env.reset();
+    lfo.reset();
     
 }
 
@@ -33,7 +35,9 @@ float render()
 {
     float noiseSample = noise.getNextSample();
     float envelope = env.nextValue();
-    float output = noiseSample * envelope;
+    float modulated = lfo.getNextSample();
+    float modulatedSample = modulated * noiseSample;
+    float output = modulatedSample * envelope;
     return output;
 }
     

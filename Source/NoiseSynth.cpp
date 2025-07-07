@@ -13,12 +13,15 @@
 NoiseSynth::NoiseSynth()
 {
     sampleRate = 44100.0;
+    voice.lfo.setRate(0.4f);
+    voice.lfo.setDepth(0.5f);
 
 }
 
 void NoiseSynth::distributeResources(double sampleRate, int samplesPerBlock)
 {
     sampleRate = this->sampleRate;
+    voice.lfo.setSampleRate(sampleRate);
 }
 
 void NoiseSynth::releaseResources()
