@@ -22,6 +22,8 @@
       <FILE id="mEiVHw" name="NoiseSynth.cpp" compile="1" resource="0" file="Source/NoiseSynth.cpp"/>
       <FILE id="IEYdP1" name="NoiseSynth.h" compile="0" resource="0" file="Source/NoiseSynth.h"/>
       <FILE id="W73MgB" name="NoiseVoice.h" compile="0" resource="0" file="Source/NoiseVoice.h"/>
+      <FILE id="ZjDRBJ" name="PinkNoise.cpp" compile="1" resource="0" file="Source/PinkNoise.cpp"/>
+      <FILE id="UcrMLQ" name="PinkNoise.h" compile="0" resource="0" file="Source/PinkNoise.h"/>
     </GROUP>
     <GROUP id="{8C5E9A1A-726F-8252-3F75-74256366F6C4}" name="Source">
       <FILE id="RoCbZl" name="PluginProcessor.cpp" compile="1" resource="0"

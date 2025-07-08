@@ -44,9 +44,7 @@ void NoiseSynth::render(float** outputBuffers, int sampleCount)
         float output = voice.render();
         
         outputBufferLeft[sample] = output;
-        
-//        DBG(outputBufferLeft[sample]);
-        
+                
         if (outputBufferRight != nullptr) {
             
             outputBufferRight[sample] = output;
