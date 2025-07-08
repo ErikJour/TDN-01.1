@@ -1,10 +1,15 @@
 import * as THREE from 'three'
 import { createSpotlight, ambientLightA, directionalLight } from './light';
 import { levelBottomMesh, createSphere, createWall } from './objects';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import { greyMaterial, labelMaterial } from './noiseParticles';
+import { greyMaterial, labelMaterial } from './materials.js';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
+import { particles, count } from './noiseParticles.js';
+import { neutraColorPalette } from './colors.js';
+
+//Texture loader
+const textureLoader = new THREE.TextureLoader();
+const particleTexture = textureLoader.load('/particles/PNG (Transparent)/dirt_03.png');
 
 //CANVAS
 const canvas = document.querySelector('canvas.webgl');
@@ -42,23 +47,28 @@ const frontWall = createWall(100, 100);
 scene.add(frontWall);
 const ceiling = createWall(100, 100);
 scene.add(ceiling);
-
 levelBottomMesh.position.set(0, -10, 0);
 levelBottomMesh.rotation.x = -Math.PI / 2;
-
 ceiling.position.set(0, 20, 0);
 ceiling.rotation.x = Math.PI / 2;
-
-
-
 backWall.position.set(0, 0, -50);
-
 leftWall.rotateY(Math.PI * .5);
 leftWall.position.set(-50, 0, 0);
 rightWall.rotateY(Math.PI * 1.5);
 rightWall.position.set(50, 0, 0);
 frontWall.rotateY(Math.PI);
 frontWall.position.set(0, 0, 50);
+
+// //NEW NOISE PARTICLES
+particles.material.map = particleTexture;
+
+scene.add(particles);
+particles.material.color.set('white');
+console.log('Particle texture loaded?', particleTexture.image ? 'Yes' : 'No');
+particles.material.transparent = true;
+particles.material.alphaTest = 0.01; // Optional: removes fully transparent pixels
+particles.material.depthWrite = false; // Helps with transparency layering
+// particles.material.blending = THREE.AdditiveBlending; // Better for glow-like particles
 
 //ADD LABELS
 const fontLoader = new FontLoader();
@@ -93,7 +103,6 @@ wordMesh.castShadow = true;
 wordMesh.receiveShadow = true;
 wordMesh.transparent = false;
 scene.add(wordMesh);
-
 }
 
 const lfoWordX = 0;
@@ -102,8 +111,6 @@ const lfoWordZ = -49;
 const lfoWord = createLabel (lfoWordX, lfoWordY, lfoWordZ, 'LFO');
 
 });
-
-
 
 //ADD LIGHTS
 const spotlightNorth = createSpotlight(0, 10, -50, 500);
@@ -114,7 +121,6 @@ const spotlightWest = createSpotlight(-50, 10, 0, 500);
 scene.add(spotlightWest);
 const spotlightEast = createSpotlight(50, 10, 0, 500);
 scene.add(spotlightEast);
-
 scene.add(ambientLightA);
 scene.add(directionalLight);
 
@@ -137,52 +143,60 @@ renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
 // Controls
-const controls = new OrbitControls(camera, canvas)
-controls.enableDamping = true
+// const controls = new OrbitControls(camera, canvas)
+// controls.enableDamping = true
 
-//NOISE
+// Texture loader
+// const textureLoader = new THREE.TextureLoader();
+// const particleMaterial = textureLoader.load('/particles/PNG (Transparent)/dirt_03.png');
 
-const noiseCenterX = 0;
-const noiseCenterY = 0;
-const noiseCenterZ = 0;
-const noiseGrainGroup = new THREE.Group();
-scene.add(noiseGrainGroup);
+// //NOISE
+// // const noiseCenterX = 0;
+// // const noiseCenterY = 0;
+// // const noiseCenterZ = 0;
+// // const noiseGrainGroup = new THREE.Group();
+// // scene.add(noiseGrainGroup);
 
-const grainGeometry = new THREE.BoxGeometry(0.02, 0.02, 0.02);
+// // const grainGeometry = new THREE.SphereGeometry(0.02, 0.02, 0.02);
 
-function createGrain(geometry) {
-    geometry = grainGeometry;
-    const mesh = new THREE.Mesh(geometry, greyMaterial);
-    const radius = 10; 
-    const theta = Math.random() * Math.PI * 25;
-    const phi = Math.acos(2 * Math.random() - 1);
-    mesh.position.set(
-        radius * Math.sin(phi) * Math.cos(theta),
-        radius * Math.sin(phi) * Math.sin(theta),
-        radius * Math.cos(phi)
-    );
-    mesh.velocity = new THREE.Vector3(
-        (Math.random() - 0.5) * 0.01,
-        (Math.random() - 0.5) * 0.01,
-        (Math.random() - 0.5) * 0.01
-    );
+// // function createGrain(geometry) {
+// //     geometry = grainGeometry;
+// //     const mesh = new THREE.Mesh(geometry, greyMaterial);
+// //     greyMaterial.alphaMap = particleMaterial;
+// //     greyMaterial.transparent = true;
+// //     greyMaterial.alphaTest = 0.001;
+// //     greyMaterial.depthWrite = false;
+// //     const radius = 10; 
+// //     const theta = Math.random() * Math.PI * 25;
+// //     const phi = Math.acos(2 * Math.random() - 1);
+// //     mesh.position.set(
+// //         radius * Math.sin(phi) * Math.cos(theta),
+// //         radius * Math.sin(phi) * Math.sin(theta),
+// //         radius * Math.cos(phi)
+// //     );
+// //     mesh.velocity = new THREE.Vector3(
+// //         (Math.random() - 0.5) * 0.01,
+// //         (Math.random() - 0.5) * 0.01,
+// //         (Math.random() - 0.5) * 0.01
+// //     );
+
+
     
-    return mesh;
-}
+// //     return mesh;
+// // }
 
-function updateGrainObject(count) {
-    noiseGrainGroup.clear();
-    for (let i = 0; i < count; i++) {
-        noiseGrainGroup.add(createGrain());
-    }
-}
+// // function updateGrainObject(count) {
+// //     noiseGrainGroup.clear();
+// //     for (let i = 0; i < count; i++) {
+// //         noiseGrainGroup.add(createGrain());
+// //     }
+// // }
 
-noiseGrainGroup.position.set (noiseCenterX, noiseCenterY, noiseCenterZ)
+// // noiseGrainGroup.position.set (noiseCenterX, noiseCenterY, noiseCenterZ)
 
-updateGrainObject(5000);
+// // updateGrainObject(500);
 
 //MOVEMENT
-
 let moveForward = false;
 let moveBackward = false;
 let rotateLeft = false;
@@ -237,9 +251,14 @@ const movementBounds = {
     radius: 48
 };
 
+const clock = new THREE.Clock();
+
 //ANIMATE
 const animate = () => {
     requestAnimationFrame(animate);
+
+
+    const elapsedTime = clock.getElapsedTime();
 
     if (rotateLeft) camera.rotation.y += rotationSpeed;
     if (rotateRight) camera.rotation.y -= rotationSpeed;
@@ -262,17 +281,33 @@ const animate = () => {
         camera.position.y *= scale;
     }
 
-       noiseGrainGroup.children.forEach(noiseGrain => {
-        noiseGrain.position.add(noiseGrain.velocity);
+    //UPDATE PARTICLES
+
+    particles.rotation.y = elapsedTime / 60;
+
+    for (let i = 0; i < count; i++) 
+    {
+        const i3 = i * 3;
+        const x = particles.geometry.attributes.position.array[i3];
+
+        particles.geometry.attributes.position.array[i3 + 1] = Math.sin(elapsedTime + x);
+    }
+
+        particles.geometry.attributes.position.needsUpdate = true;
+
+
+    //OLD NOISE
+    //    noiseGrainGroup.children.forEach(noiseGrain => {
+    //     noiseGrain.position.add(noiseGrain.velocity);
     
-        const maxRadius = 2; 
-        if (noiseGrain.position.length() > maxRadius) {
-            noiseGrain.position.normalize().multiplyScalar(maxRadius);
-            noiseGrain.velocity.negate(); 
-        }
+    //     const maxRadius = 2; 
+    //     if (noiseGrain.position.length() > maxRadius) {
+    //         noiseGrain.position.normalize().multiplyScalar(maxRadius);
+    //         noiseGrain.velocity.negate(); 
+    //     }
     
-        noiseGrain.material.opacity = 10; 
-    });
+    //     noiseGrain.material.opacity = 10; 
+    // });
 
     renderer.render(scene, camera);
 };
