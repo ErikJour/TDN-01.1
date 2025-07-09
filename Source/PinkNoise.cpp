@@ -34,4 +34,5 @@ float PinkNoise::getNextSample()
     }
 
     return static_cast<float>(accum) / (numContributors * 32768.0f);
+
 }

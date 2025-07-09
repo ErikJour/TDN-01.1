@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import * as JUCE from './javascript/index.js'
 import { createSpotlight, ambientLightA, directionalLight } from './light';
 import { levelBottomMesh, createSphere, createWall } from './objects';
 import { greyMaterial, labelMaterial } from './materials.js';
@@ -7,9 +8,20 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 import { particles, count } from './noiseParticles.js';
 import { neutraColorPalette } from './colors.js';
 
-//Texture loader
+//TEXTURES
 const textureLoader = new THREE.TextureLoader();
 const particleTexture = textureLoader.load('/particles/PNG (Transparent)/dirt_03.png');
+const stainedGlassTextureC = textureLoader.load('textures/stainedGlassWaveB.jpg');
+const sineTextureB = textureLoader.load('textures/Greydient4A_texture1_5.jpg');
+const triangleTextureA = textureLoader.load('textures/Greydient4B_texture1_6.jpg');
+const squareTextureA = textureLoader.load('textures/Greydient4C_texture1_3.jpg');
+
+//MATCAPS
+const matcapB = textureLoader.load('matcaps/0_export_6.png');
+const matcapA = textureLoader.load('matcaps/0_export_25.png')
+const matcapC = textureLoader.load('matcaps/1C70C6_09294C_0F3F73_52B3F6-512px.png')
+const matcapD = textureLoader.load('matcaps/4A6442_D0AB75_81CD94_181B12-512px.png')
+levelBottomMesh.material.matcap = matcapD;
 
 //CANVAS
 const canvas = document.querySelector('canvas.webgl');
@@ -23,6 +35,7 @@ const sizes = {
 const northSphere = createSphere (4, 30, 29);
 northSphere.position.set(0, 22, -50);
 scene.add(northSphere);
+northSphere.material.map = stainedGlassTextureC;
 
 const southSphere = createSphere (4, 30, 29);
 southSphere.position.set(0, 22, 50);
@@ -60,15 +73,14 @@ frontWall.rotateY(Math.PI);
 frontWall.position.set(0, 0, 50);
 
 // //NEW NOISE PARTICLES
-particles.material.map = particleTexture;
+// particles.material.map = particleTexture;
 
 scene.add(particles);
-particles.material.color.set('white');
-console.log('Particle texture loaded?', particleTexture.image ? 'Yes' : 'No');
 particles.material.transparent = true;
-particles.material.alphaTest = 0.01; // Optional: removes fully transparent pixels
-particles.material.depthWrite = false; // Helps with transparency layering
-// particles.material.blending = THREE.AdditiveBlending; // Better for glow-like particles
+particles.material.alphaTest = 0.1; 
+particles.material.depthWrite = false; 
+particles.material.blending = THREE.AdditiveBlending; 
+particles.material.color.set(neutraColorPalette.neutraPink)
 
 //ADD LABELS
 const fontLoader = new FontLoader();
@@ -122,6 +134,7 @@ scene.add(spotlightWest);
 const spotlightEast = createSpotlight(50, 10, 0, 500);
 scene.add(spotlightEast);
 scene.add(ambientLightA);
+ambientLightA.intensity = 5;
 scene.add(directionalLight);
 
 //CAMERA
@@ -141,60 +154,6 @@ renderer.render(scene, camera);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.PCFSoftShadowMap
-
-// Controls
-// const controls = new OrbitControls(camera, canvas)
-// controls.enableDamping = true
-
-// Texture loader
-// const textureLoader = new THREE.TextureLoader();
-// const particleMaterial = textureLoader.load('/particles/PNG (Transparent)/dirt_03.png');
-
-// //NOISE
-// // const noiseCenterX = 0;
-// // const noiseCenterY = 0;
-// // const noiseCenterZ = 0;
-// // const noiseGrainGroup = new THREE.Group();
-// // scene.add(noiseGrainGroup);
-
-// // const grainGeometry = new THREE.SphereGeometry(0.02, 0.02, 0.02);
-
-// // function createGrain(geometry) {
-// //     geometry = grainGeometry;
-// //     const mesh = new THREE.Mesh(geometry, greyMaterial);
-// //     greyMaterial.alphaMap = particleMaterial;
-// //     greyMaterial.transparent = true;
-// //     greyMaterial.alphaTest = 0.001;
-// //     greyMaterial.depthWrite = false;
-// //     const radius = 10; 
-// //     const theta = Math.random() * Math.PI * 25;
-// //     const phi = Math.acos(2 * Math.random() - 1);
-// //     mesh.position.set(
-// //         radius * Math.sin(phi) * Math.cos(theta),
-// //         radius * Math.sin(phi) * Math.sin(theta),
-// //         radius * Math.cos(phi)
-// //     );
-// //     mesh.velocity = new THREE.Vector3(
-// //         (Math.random() - 0.5) * 0.01,
-// //         (Math.random() - 0.5) * 0.01,
-// //         (Math.random() - 0.5) * 0.01
-// //     );
-
-
-    
-// //     return mesh;
-// // }
-
-// // function updateGrainObject(count) {
-// //     noiseGrainGroup.clear();
-// //     for (let i = 0; i < count; i++) {
-// //         noiseGrainGroup.add(createGrain());
-// //     }
-// // }
-
-// // noiseGrainGroup.position.set (noiseCenterX, noiseCenterY, noiseCenterZ)
-
-// // updateGrainObject(500);
 
 //MOVEMENT
 let moveForward = false;
@@ -239,11 +198,6 @@ window.addEventListener('keyup', (event) => {
     }
 });
 
-//AXIS Helper
-// const axisHelper = new THREE.AxesHelper;
-// scene.add(axisHelper);
-// axisHelper.position.set(0, -3, 0);
-
 //MOVEMENT BOUNDS
 const movementBounds = {
     minimumZ: -48,
@@ -282,32 +236,18 @@ const animate = () => {
     }
 
     //UPDATE PARTICLES
+    particles.rotation.y = elapsedTime / 100;
 
-    particles.rotation.y = elapsedTime / 60;
+    //Wave Animation
+    // for (let i = 0; i < count; i++) 
+    // {
+    //     const i3 = i * 3;
+    //     const x = particles.geometry.attributes.position.array[i3];
 
-    for (let i = 0; i < count; i++) 
-    {
-        const i3 = i * 3;
-        const x = particles.geometry.attributes.position.array[i3];
+    //     particles.geometry.attributes.position.array[i3 + 1] = Math.sin(elapsedTime + x);
+    // }
 
-        particles.geometry.attributes.position.array[i3 + 1] = Math.sin(elapsedTime + x);
-    }
-
-        particles.geometry.attributes.position.needsUpdate = true;
-
-
-    //OLD NOISE
-    //    noiseGrainGroup.children.forEach(noiseGrain => {
-    //     noiseGrain.position.add(noiseGrain.velocity);
-    
-    //     const maxRadius = 2; 
-    //     if (noiseGrain.position.length() > maxRadius) {
-    //         noiseGrain.position.normalize().multiplyScalar(maxRadius);
-    //         noiseGrain.velocity.negate(); 
-    //     }
-    
-    //     noiseGrain.material.opacity = 10; 
-    // });
+    //     particles.geometry.attributes.position.needsUpdate = true;
 
     renderer.render(scene, camera);
 };

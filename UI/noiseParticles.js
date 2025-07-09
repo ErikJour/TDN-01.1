@@ -9,7 +9,7 @@ const positions = new Float32Array(count * 3);
 
 for (let i = 0; i < count * 3; i++) 
 {
-    positions[i] = (Math.random() - 0.5) * 50;
+    positions[i] = (Math.random() - 0.5) * 65;
 }
 
 particleGeometry.setAttribute(
@@ -17,8 +17,7 @@ particleGeometry.setAttribute(
     new THREE.BufferAttribute(positions, 3)
 )
 
-particleMaterial.vertexColors = true;
-
 const particles = new THREE.Points(particleGeometry, particleMaterial);
+
 
 export { particles, count };

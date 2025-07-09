@@ -8,7 +8,8 @@ const neutraColorPalette = {
     oliveBrown: "#5A5A44",
     sunlitSand: "#E5C69F",
     mutedTeal: "#6E8D90",
-    charcoalGray: "#4A4A4A"
+    charcoalGray: "#4A4A4A",
+    neutraPink: "#DDA4B4"
 };
 
 export { neutraColorPalette };

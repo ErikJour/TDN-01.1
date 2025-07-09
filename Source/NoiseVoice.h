@@ -12,11 +12,13 @@
 #include "noiseGenerator.h"
 #include "Envelope.h"
 #include "LFO.h"
+#include "PinkNoise.h"
 
 
 struct NoiseVoice
 {
     NoiseGenerator noise;
+    PinkNoise pinkNoise;
     int note;
     Envelope env;
     LFO lfo;
@@ -34,11 +36,15 @@ void reset()
 float render()
 {
     float noiseSample = noise.getNextSample();
+//    float pinkNoiseSample = pinkNoise.getNextSample();
     float envelope = env.nextValue();
     float modulated = lfo.getNextSample();
     float modulatedSample = modulated * noiseSample;
+//    float modulatedSample = modulated * pinkNoiseSample;
+
     float output = modulatedSample * envelope;
     return output;
+    
 }
     
 };

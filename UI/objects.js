@@ -3,12 +3,23 @@ import { neutraColorPalette } from './colors';
 
 //OBJECTS
 
+const textureLoader = new THREE.TextureLoader();
+const stainedGlassTextureC = textureLoader.load('textures/stainedGlassWaveB.jpg');
+const sineTextureB = textureLoader.load('textures/Greydient4A_texture1_5.jpg');
+const triangleTextureA = textureLoader.load('textures/Greydient4B_texture1_6.jpg');
+const squareTextureA = textureLoader.load('textures/Greydient4C_texture1_3.jpg');
+const noiseTextureA = textureLoader.load('textures/Greydient4A_texture1_8.jpg');
+const noiseTextureB = textureLoader.load('textures/Greydient4A_texture1_11.jpg');
+const noiseTextureC = textureLoader.load('textures/Greydient4A_texture1_16.jpg');
+
+
 
 // const sphereGeo = new THREE.SphereGeometry(4, 30, 29);
 
-const levelMaterial = new THREE.MeshStandardMaterial({
+const levelMaterial = new THREE.MeshMatcapMaterial({
     
     color: neutraColorPalette.charcoalGray});
+    levelMaterial.map = stainedGlassTextureC
 
 const materialTwo = new THREE.MeshStandardMaterial({
     
@@ -20,6 +31,7 @@ function createSphere (radius, width, height)
 {
     const sphereGeo = new THREE.SphereGeometry(radius, width, height);
     const sphereMesh = new THREE.Mesh(sphereGeo, materialTwo);
+    sphereMesh.material.map = stainedGlassTextureC;
 
     return sphereMesh;
 
