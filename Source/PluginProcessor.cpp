@@ -27,6 +27,7 @@ TDN01AudioProcessor::TDN01AudioProcessor()
     castParameter(apvts, ParameterID::envDecay, envDecayParam);
     castParameter(apvts, ParameterID::envSustain, envSustainParam);
     castParameter(apvts, ParameterID::envRelease, envReleaseParam);
+    castParameter(apvts, ParameterID::noiseType, noiseTypeParam);
     
 }
 
@@ -280,6 +281,13 @@ juce::AudioProcessorValueTreeState::ParameterLayout
         50.0f,
         juce::AudioParameterFloatAttributes().withLabel("%")
         ));
+        
+        //Noise Type
+        layout.add(std::make_unique<juce::AudioParameterChoice>(
+        ParameterID::noiseType,
+        "Noise Type",
+        juce::StringArray { "White", "Pink"},
+        0));
       
         return layout;
 }
@@ -307,6 +315,11 @@ void TDN01AudioProcessor::update()
     float decayTime = envDecayParam->get() / 100.0f * 5.0f;
     float decaySamples = sampleRate * decayTime;
     noiseSynth.envDecay = std::exp(std::log(SILENCE) / decaySamples);
+    
+    //Noise Type Control
+    int updatedNoiseType = noiseTypeParam->getIndex();
+    noiseSynth.setNoiseType(updatedNoiseType);
+
 }
 
 //==============================================================================

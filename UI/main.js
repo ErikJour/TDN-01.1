@@ -82,6 +82,12 @@ particles.material.depthWrite = false;
 particles.material.blending = THREE.AdditiveBlending; 
 particles.material.color.set(neutraColorPalette.neutraPink)
 
+//NOISE TYPE SELECTION
+const noiseType = JUCE.getToggleState("noiseType");
+//PINK
+noiseType.setValue(true);
+
+
 //ADD LABELS
 const fontLoader = new FontLoader();
 fontLoader.load("fonts/P22 FLLW Exhibition_Regular.json", function(font) {

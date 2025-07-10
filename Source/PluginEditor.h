@@ -33,8 +33,14 @@ private:
     //Audio processor reference
     TDN01AudioProcessor& audioProcessor;
     
+    //RELAYS
+    juce::WebToggleButtonRelay webNoiseTypeRelay;
+    
     //Webview GUI
     juce::WebBrowserComponent webViewGui;
+    
+    //WEB PARAMETER ATTACHMENTS
+    juce::WebToggleButtonParameterAttachment webNoiseTypeParameterAttachment;
     
     //JUCE Sliders / Attachments
     juce::Slider ampEnvAttackSlider;

@@ -25,6 +25,7 @@ class NoiseSynth
         void startVoice(int note, int velocity);
         void noteOn(int note, int velocity);
         void noteOff(int note);
+        void setNoiseType(int newNoiseType);
     
         float envAttack;
         float envDecay;
@@ -32,7 +33,6 @@ class NoiseSynth
         float envRelease;
         
     private:
-    
         double sampleRate;
         NoiseVoice voice;
 };

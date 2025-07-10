@@ -22,6 +22,8 @@ struct NoiseVoice
     int note;
     Envelope env;
     LFO lfo;
+    int noiseType;
+  
 
 
 void reset()
@@ -35,14 +37,28 @@ void reset()
 
 float render()
 {
-    float noiseSample = noise.getNextSample();
-//    float pinkNoiseSample = pinkNoise.getNextSample();
+    float whiteNoiseSample = noise.getNextSample();
+    float pinkNoiseSample = pinkNoise.getNextSample();
+    pinkNoiseSample *= 0.5f;
     float envelope = env.nextValue();
-    float modulated = lfo.getNextSample();
-    float modulatedSample = modulated * noiseSample;
+//    float modulated = lfo.getNextSample();
+    
+    float output = 0.0f;
+    
+    
+    //White Noise
+    if (noiseType == 0) {
+        
+        output = whiteNoiseSample * envelope;
+        
+    } else if (noiseType == 1) {
+        
+        output = pinkNoiseSample * envelope;
+
+    }
+//    float modulatedSample = modulated * noiseSample;
 //    float modulatedSample = modulated * pinkNoiseSample;
 
-    float output = modulatedSample * envelope;
     return output;
     
 }

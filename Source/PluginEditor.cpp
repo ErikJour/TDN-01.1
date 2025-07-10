@@ -52,11 +52,24 @@ const char* getMimeForExtension (const juce::String& extension)
 
 //==============================================================================
 TDN01AudioProcessorEditor::TDN01AudioProcessorEditor (TDN01AudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p),
-    webViewGui{juce::WebBrowserComponent::Options{}
-            .withResourceProvider([this](const auto& url){
-                return getResource(url);
-            })}
+    : AudioProcessorEditor (&p), 
+    audioProcessor (p),
+    webNoiseTypeRelay{webViewGui, ParameterID::noiseType.getParamID()},
+//    webNoiseTypeRelay{ParameterID::noiseType.getParamID()},
+    webViewGui{
+        juce::WebBrowserComponent::Options{}
+              .withBackend(juce::WebBrowserComponent::Options::Backend::defaultBackend)
+              .withResourceProvider([this](const auto& url){
+              return getResource(url);},
+              juce::URL{ juce::WebBrowserComponent::getResourceProviderRoot() }
+                    .getOrigin())
+              .withNativeIntegrationEnabled()
+              .withUserScript(R"(console.log("C++ Backend here: This is run before any other loading happens.");)")
+        .withOptionsFrom(webNoiseTypeRelay)
+        },
+        webNoiseTypeParameterAttachment{*p.apvts.getParameter(ParameterID::noiseType.getParamID()),
+        webNoiseTypeRelay, nullptr}
+        
 {
     addAndMakeVisible(webViewGui);
     juce::String localServer = "http://localhost:5173/";

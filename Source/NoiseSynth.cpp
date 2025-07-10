@@ -105,3 +105,9 @@ void NoiseSynth::noteOff(int note)
     
 }
 
+void NoiseSynth::setNoiseType(int newNoiseType)
+{
+    voice.noiseType = newNoiseType;
+}
+
+
