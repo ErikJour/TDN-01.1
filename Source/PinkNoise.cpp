@@ -10,7 +10,7 @@
 
 #include "PinkNoise.h"
 
-PinkNoise::PinkNoise() { reset(); }
+PinkNoise::PinkNoise()  { reset(); }
 
 void PinkNoise::reset()
 {

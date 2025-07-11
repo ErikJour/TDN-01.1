@@ -2,11 +2,21 @@ import * as THREE from 'three'
 import { neutraColorPalette } from './colors.js';
 
 const greyMaterial = new THREE.MeshMatcapMaterial({ 
-    color: neutraColorPalette.neutraBeige,              
-    emissiveIntensity: 0.2,       
+    color: neutraColorPalette.neutraBeige,                   
     transparent: false, 
     opacity: 1
-    // matcap: 
+});
+
+const pinkMaterial = new THREE.MeshMatcapMaterial({ 
+    color: neutraColorPalette.neutraPink,                   
+    transparent: false, 
+    opacity: 0.5
+});
+
+const whiteMaterial = new THREE.MeshMatcapMaterial({ 
+    color: neutraColorPalette.neutraCream,                   
+    transparent: false, 
+    opacity: 0.5
 });
 
 const labelMaterial = new THREE.MeshStandardMaterial({
@@ -27,4 +37,4 @@ const particleMaterial = new THREE.PointsMaterial({
 });
 
 
-export { greyMaterial, labelMaterial, particleMaterial };
+export { labelMaterial, particleMaterial, pinkMaterial, whiteMaterial };

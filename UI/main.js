@@ -1,12 +1,13 @@
 import * as THREE from 'three'
 import * as JUCE from './javascript/index.js'
-import { createSpotlight, ambientLightA, directionalLight } from './light';
+import { createSpotlight, ambientLightA } from './light';
 import { levelBottomMesh, createSphere, createWall } from './objects';
-import { greyMaterial, labelMaterial } from './materials.js';
+import { pinkMaterial, labelMaterial, whiteMaterial } from './materials.js';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 import { particles, count } from './noiseParticles.js';
 import { neutraColorPalette } from './colors.js';
+import { arrowUp, arrowDown, arrowLeft, arrowRight, arrowGroup } from './arrows.js'
 
 //TEXTURES
 const textureLoader = new THREE.TextureLoader();
@@ -15,13 +16,6 @@ const stainedGlassTextureC = textureLoader.load('textures/stainedGlassWaveB.jpg'
 const sineTextureB = textureLoader.load('textures/Greydient4A_texture1_5.jpg');
 const triangleTextureA = textureLoader.load('textures/Greydient4B_texture1_6.jpg');
 const squareTextureA = textureLoader.load('textures/Greydient4C_texture1_3.jpg');
-
-//MATCAPS
-const matcapB = textureLoader.load('matcaps/0_export_6.png');
-const matcapA = textureLoader.load('matcaps/0_export_25.png')
-const matcapC = textureLoader.load('matcaps/1C70C6_09294C_0F3F73_52B3F6-512px.png')
-const matcapD = textureLoader.load('matcaps/4A6442_D0AB75_81CD94_181B12-512px.png')
-levelBottomMesh.material.matcap = matcapD;
 
 //CANVAS
 const canvas = document.querySelector('canvas.webgl');
@@ -73,8 +67,6 @@ frontWall.rotateY(Math.PI);
 frontWall.position.set(0, 0, 50);
 
 // //NEW NOISE PARTICLES
-// particles.material.map = particleTexture;
-
 scene.add(particles);
 particles.material.transparent = true;
 particles.material.alphaTest = 0.1; 
@@ -84,9 +76,22 @@ particles.material.color.set(neutraColorPalette.neutraPink)
 
 //NOISE TYPE SELECTION
 const noiseType = JUCE.getToggleState("noiseType");
-//PINK
-noiseType.setValue(true);
 
+//WHITE
+noiseType.setValue(false);
+particles.material.color.set(neutraColorPalette.neutraCream)
+
+//PINK
+// noiseType.setValue(true);
+// particles.material.color.set(neutraColorPalette.neutraPink)
+
+//ARROWS
+scene.add(arrowUp);
+scene.add(arrowDown);
+scene.add(arrowLeft);
+scene.add(arrowRight);
+scene.add(arrowGroup);
+arrowGroup.position.set(0, 5, -49);
 
 //ADD LABELS
 const fontLoader = new FontLoader();
@@ -106,31 +111,51 @@ fontLoader.load("fonts/P22 FLLW Exhibition_Regular.json", function(font) {
     });
 
 }
-const labelSize = 0.08;
+const labelSize = 0.15;
 
-function createLabel (xPos, yPos, zPos, word)
+function createLabel (xPos, zPos, word)
 {
 const wordGeometry = createLetter(word, font);
 wordGeometry.computeBoundingBox();
 wordGeometry.center();
 console.log(wordGeometry.boundingBox);
 const wordMesh = new THREE.Mesh(wordGeometry, labelMaterial);
+const yPos = 10;
 wordMesh.position.set(xPos, yPos, zPos);
-wordMesh.scale.set(labelSize, labelSize, labelSize)
+wordMesh.scale.set(labelSize, labelSize, 0)
 wordMesh.castShadow = true;
 wordMesh.receiveShadow = true;
 wordMesh.transparent = false;
 scene.add(wordMesh);
+return wordMesh;
 }
 
+//LFO LABEL
 const lfoWordX = 0;
-const lfoWordY = 2;
 const lfoWordZ = -49;
-const lfoWord = createLabel (lfoWordX, lfoWordY, lfoWordZ, 'LFO');
+const lfoWord = createLabel (lfoWordX, lfoWordZ, 'LFO');
+
+//NOISE TYPE LABEL
+const noiseTypeX = 0;
+const noiseTypeZ = 49;
+const noiseTypeWord = createLabel (noiseTypeX, noiseTypeZ, 'Noise Type');
+noiseTypeWord.rotation.y = Math.PI;
+
+//ADSR LABEL
+const adsrX = -49;
+const adsrZ = 0;
+const adsrWord = createLabel (adsrX, adsrZ, 'ADSR');
+adsrWord.rotation.y = Math.PI / 2;
+
+//FILTERS
+const filterX = 49;
+const filterZ = 0;
+const filterWord = createLabel (filterX, filterZ, 'Filters');
+filterWord.rotation.y = Math.PI * 1.5;
 
 });
 
-//ADD LIGHTS
+// ADD LIGHTS
 const spotlightNorth = createSpotlight(0, 10, -50, 500);
 scene.add(spotlightNorth);
 const spotlightSouth = createSpotlight(0, 10, 50, 500);
@@ -140,8 +165,19 @@ scene.add(spotlightWest);
 const spotlightEast = createSpotlight(50, 10, 0, 500);
 scene.add(spotlightEast);
 scene.add(ambientLightA);
-ambientLightA.intensity = 5;
-scene.add(directionalLight);
+ambientLightA.intensity = 10;
+
+//CONTROLS
+const pinkSphere = createSphere (4, 30, 29);
+pinkSphere.material = pinkMaterial;
+pinkSphere.position.set(0, 5, 53);
+scene.add(pinkSphere);
+
+const whiteSphere = createSphere (4, 30, 29);
+whiteSphere.position.set(0, -2, 53);
+whiteSphere.material = whiteMaterial;
+scene.add(whiteSphere);
+
 
 //CAMERA
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);

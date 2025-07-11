@@ -10,7 +10,7 @@
 
 #include "Envelope.h"
 
-float Envelope::nextValue()
+float Envelope::nextValue() 
 {
     level = multiplier * (level - target) + target;
     

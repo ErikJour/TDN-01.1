@@ -5,25 +5,34 @@ import { neutraColorPalette } from './colors';
 
 const textureLoader = new THREE.TextureLoader();
 const stainedGlassTextureC = textureLoader.load('textures/stainedGlassWaveB.jpg');
-const sineTextureB = textureLoader.load('textures/Greydient4A_texture1_5.jpg');
-const triangleTextureA = textureLoader.load('textures/Greydient4B_texture1_6.jpg');
-const squareTextureA = textureLoader.load('textures/Greydient4C_texture1_3.jpg');
-const noiseTextureA = textureLoader.load('textures/Greydient4A_texture1_8.jpg');
-const noiseTextureB = textureLoader.load('textures/Greydient4A_texture1_11.jpg');
-const noiseTextureC = textureLoader.load('textures/Greydient4A_texture1_16.jpg');
 
+//DAY TWO TEXTURES
+const newNoiseTextureA = textureLoader.load('textures/AdobeStock_682864478_Preview.jpeg')
+const newNoiseTextureB = textureLoader.load('textures/AdobeStock_846456489_Preview.jpeg')
+const newNoiseTextureC = textureLoader.load('textures/AdobeStock_927583757_Preview.jpeg')
+const newNoiseTextureD = textureLoader.load('textures/AdobeStock_1163812336_Preview.jpeg')
+const newNoiseTextureE = textureLoader.load('textures/AdobeStock_1237336418_Preview.jpeg')
+const newNoiseTextureF = textureLoader.load('textures/AdobeStock_1243109284_Preview.jpeg')
+const newNoiseTextureG = textureLoader.load('textures/AdobeStock_1249128757_Preview.jpeg')
+const newNoiseTextureH = textureLoader.load('textures/AdobeStock_1335294749_Preview.jpeg')
+const newNoiseTextureI = textureLoader.load('textures/AdobeStock_1335294749_Preview.jpeg')
 
-
-// const sphereGeo = new THREE.SphereGeometry(4, 30, 29);
+//MATCAPS
+const matcapB = textureLoader.load('matcaps/0_export_6.png');
+const matcapA = textureLoader.load('matcaps/0_export_25.png')
+const matcapC = textureLoader.load('matcaps/1C70C6_09294C_0F3F73_52B3F6-512px.png')
+const matcapD = textureLoader.load('matcaps/4A6442_D0AB75_81CD94_181B12-512px.png')
 
 const levelMaterial = new THREE.MeshMatcapMaterial({
     
-    color: neutraColorPalette.charcoalGray});
-    levelMaterial.map = stainedGlassTextureC
+    color: neutraColorPalette.oliveBrown});
+
+levelMaterial.map = stainedGlassTextureC
+levelMaterial.matcap = matcapC
 
 const materialTwo = new THREE.MeshStandardMaterial({
     
-    color: neutraColorPalette.terracotta});
+color: neutraColorPalette.terracotta});
 
 // const sphereMesh = new THREE.Mesh(sphereGeo, materialTwo);
 

@@ -10,7 +10,7 @@
 
 #include "NoiseSynth.h"
 
-NoiseSynth::NoiseSynth()
+NoiseSynth::NoiseSynth() : envAttack(0.0f), envDecay(0.0f), envSustain(0.0f), envRelease(0.0f)
 {
     sampleRate = 44100.0;
     voice.lfo.setRate(0.4f);

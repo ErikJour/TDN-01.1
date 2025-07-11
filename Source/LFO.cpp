@@ -10,7 +10,7 @@
 
 #include "LFO.h"
 
-LFO::LFO()
+LFO::LFO() : mSampleRate(44100.0), phase(0.0f), rate(0.0f), depth(0.0f)
 {
     reset();
 }
