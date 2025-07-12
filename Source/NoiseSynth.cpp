@@ -15,6 +15,7 @@ NoiseSynth::NoiseSynth() : envAttack(0.0f), envDecay(0.0f), envSustain(0.0f), en
     sampleRate = 44100.0;
     voice.lfo.setRate(0.4f);
     voice.lfo.setDepth(0.5f);
+    gainSmoothed.reset(sampleRate, 0.01f);
 
 }
 
@@ -32,6 +33,7 @@ void NoiseSynth::releaseResources()
 void NoiseSynth::reset()
 {
     voice.reset();
+    gainSmoothed.reset(sampleRate, 0.01f);
 }
 
 void NoiseSynth::render(float** outputBuffers, int sampleCount)
@@ -43,11 +45,13 @@ void NoiseSynth::render(float** outputBuffers, int sampleCount)
         
         float output = voice.render();
         
-        outputBufferLeft[sample] = output;
+        float gain = gainSmoothed.getNextValue();
+        
+        outputBufferLeft[sample] = output * gain;
                 
         if (outputBufferRight != nullptr) {
             
-            outputBufferRight[sample] = output;
+            outputBufferRight[sample] = output * gain;
         }
         
         if (!voice.env.isActive()) {
@@ -109,5 +113,11 @@ void NoiseSynth::setNoiseType(int newNoiseType)
 {
     voice.noiseType = newNoiseType;
 }
+
+void NoiseSynth::setGain (float newGain)
+{
+    gainSmoothed.setTargetValue(newGain);
+}
+
 
 

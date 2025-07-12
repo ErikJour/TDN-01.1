@@ -22,6 +22,7 @@ PARAMETER_ID(envDecay)
 PARAMETER_ID(envSustain)
 PARAMETER_ID(envRelease)
 PARAMETER_ID(noiseType)
+PARAMETER_ID(masterGain)
 
 #undef PARAMETER_ID
 
@@ -92,6 +93,7 @@ private:
     juce::AudioParameterFloat* envSustainParam;
     juce::AudioParameterFloat* envReleaseParam;
     juce::AudioParameterChoice* noiseTypeParam;
+    juce::AudioParameterFloat* masterGainParam;
     
     juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
 

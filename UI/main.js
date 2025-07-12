@@ -164,16 +164,6 @@ scene.add(ambientLightA);
 ambientLightA.intensity = 8;
 
 //CONTROLS
-const pinkSphere = createSphere (4, 30, 29);
-pinkSphere.material = pinkMaterial;
-pinkSphere.position.set(0, 5, 53);
-scene.add(pinkSphere);
-
-const whiteSphere = createSphere (4, 30, 29);
-whiteSphere.position.set(0, -2, 53);
-whiteSphere.material = whiteMaterial;
-scene.add(whiteSphere);
-
 
 //CAMERA
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);

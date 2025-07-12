@@ -43,7 +43,19 @@ private:
     juce::WebToggleButtonParameterAttachment webNoiseTypeParameterAttachment;
     
     //JUCE Sliders / Attachments
+    
     juce::Slider ampEnvAttackSlider;
+    juce::Slider ampEnvDecaySlider;
+    juce::Slider ampEnvSustainSlider;
+    juce::Slider ampEnvReleaseSlider;
+    juce::Slider masterGainSlider;
+    juce::ComboBox noiseTypeComboBox;
+    
+    juce::Label nameLabel{"TDN-01"};
+    juce::Label envLabel{"Amp Env"};
+    juce::Label filterLabel{"Filters"};
+    juce::Label globalGainLabel{"Global Gain"};
+   
     
     using APVTS = juce::AudioProcessorValueTreeState;
     
@@ -52,6 +64,24 @@ private:
     SliderAttachment ampEnvAttackAmount {audioProcessor.apvts,
                                         ParameterID::envAttack.getParamID(),
                                         ampEnvAttackSlider};
+    
+    SliderAttachment ampEnvDecayAmmount {audioProcessor.apvts,
+                                        ParameterID::envDecay.getParamID(),
+                                        ampEnvDecaySlider};
+    
+    SliderAttachment ampEnvSustainAmount {audioProcessor.apvts,
+                                        ParameterID::envSustain.getParamID(),
+                                        ampEnvSustainSlider};
+    
+    SliderAttachment ampEnvReleaseAmount {audioProcessor.apvts,
+                                        ParameterID::envRelease.getParamID(),
+                                        ampEnvReleaseSlider};
+    
+    SliderAttachment globalGainAmount {audioProcessor.apvts,
+                                        ParameterID::masterGain.getParamID(),
+                                        masterGainSlider};
+    
+//    using ComboBoxAttachment = APVTS::
 
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TDN01AudioProcessorEditor)

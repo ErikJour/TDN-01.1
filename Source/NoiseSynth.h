@@ -26,6 +26,7 @@ class NoiseSynth
         void noteOn(int note, int velocity);
         void noteOff(int note);
         void setNoiseType(int newNoiseType);
+        void setGain (float newGain);
     
         float envAttack;
         float envDecay;
@@ -35,4 +36,7 @@ class NoiseSynth
     private:
         double sampleRate;
         NoiseVoice voice;
+        juce::SmoothedValue<float> gainSmoothed;
+
+        
 };
