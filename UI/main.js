@@ -11,11 +11,7 @@ import { arrowUp, arrowDown, arrowLeft, arrowRight, arrowGroup } from './arrows.
 
 //TEXTURES
 const textureLoader = new THREE.TextureLoader();
-const particleTexture = textureLoader.load('/particles/PNG (Transparent)/dirt_03.png');
 const stainedGlassTextureC = textureLoader.load('textures/stainedGlassWaveB.jpg');
-const sineTextureB = textureLoader.load('textures/Greydient4A_texture1_5.jpg');
-const triangleTextureA = textureLoader.load('textures/Greydient4B_texture1_6.jpg');
-const squareTextureA = textureLoader.load('textures/Greydient4C_texture1_3.jpg');
 
 //CANVAS
 const canvas = document.querySelector('canvas.webgl');
@@ -78,12 +74,12 @@ particles.material.color.set(neutraColorPalette.neutraPink)
 const noiseType = JUCE.getToggleState("noiseType");
 
 //WHITE
-noiseType.setValue(false);
-particles.material.color.set(neutraColorPalette.neutraCream)
+// noiseType.setValue(false);
+// particles.material.color.set(neutraColorPalette.neutraCream)
 
 //PINK
-// noiseType.setValue(true);
-// particles.material.color.set(neutraColorPalette.neutraPink)
+noiseType.setValue(true);
+particles.material.color.set(neutraColorPalette.neutraPink)
 
 //ARROWS
 scene.add(arrowUp);
@@ -156,16 +152,16 @@ filterWord.rotation.y = Math.PI * 1.5;
 });
 
 // ADD LIGHTS
-const spotlightNorth = createSpotlight(0, 10, -50, 500);
+const spotlightNorth = createSpotlight(0, 10, -50, 1000);
 scene.add(spotlightNorth);
-const spotlightSouth = createSpotlight(0, 10, 50, 500);
+const spotlightSouth = createSpotlight(0, 10, 50, 1000);
 scene.add(spotlightSouth);
-const spotlightWest = createSpotlight(-50, 10, 0, 500);
+const spotlightWest = createSpotlight(-50, 10, 0, 1000);
 scene.add(spotlightWest);
-const spotlightEast = createSpotlight(50, 10, 0, 500);
+const spotlightEast = createSpotlight(50, 10, 0, 1000);
 scene.add(spotlightEast);
 scene.add(ambientLightA);
-ambientLightA.intensity = 10;
+ambientLightA.intensity = 8;
 
 //CONTROLS
 const pinkSphere = createSphere (4, 30, 29);
