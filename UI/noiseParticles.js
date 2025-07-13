@@ -7,9 +7,11 @@ const particleGeometry = new THREE.BufferGeometry();
 const count = 250000;
 const positions = new Float32Array(count * 3);
 
+const amt = 50;
+
 for (let i = 0; i < count * 3; i++) 
 {
-    positions[i] = (Math.random() - 0.5) * 50;
+    positions[i] = (Math.random() - 0.5) * amt;
 }
 
 particleGeometry.setAttribute(
@@ -19,5 +21,4 @@ particleGeometry.setAttribute(
 
 const particles = new THREE.Points(particleGeometry, particleMaterial);
 
-
-export { particles, count };
+export { particles, count, positions };

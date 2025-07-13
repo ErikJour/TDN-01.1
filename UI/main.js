@@ -5,7 +5,7 @@ import { levelBottomMesh, createSphere, createWall } from './objects';
 import { pinkMaterial, labelMaterial, whiteMaterial } from './materials.js';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
-import { particles, count } from './noiseParticles.js';
+import { particles, count, positions } from './noiseParticles.js';
 import { neutraColorPalette } from './colors.js';
 import { arrowUp, arrowDown, arrowLeft, arrowRight, arrowGroup } from './arrows.js'
 
@@ -20,6 +20,10 @@ const sizes = {
     width: window.innerWidth,
     height: window.innerHeight
 }
+
+//MOUSE / RAYCASTER
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
 
 //ADD OBJECTS
 const northSphere = createSphere (4, 30, 29);
@@ -89,17 +93,14 @@ noiseTypeTogleState.valueChangedEvent.addListener(() => {
     }
 })
 
+//GLOBAL GAIN PARAM
+const globalGainState = JUCE.getSliderState("masterGain");
 
-
-
-//WHITE
-
-
-
-// else if (noiseType == 1) {
-
-
-// }
+globalGainState.valueChangedEvent.addListener(() => {
+    const globalGainValue = globalGainState.getNormalisedValue();
+    console.log(globalGainValue);
+    // particles. = globalGainValue;
+})
 
 
 //ARROWS

@@ -55,6 +55,7 @@ TDN01AudioProcessorEditor::TDN01AudioProcessorEditor (TDN01AudioProcessor& p)
     : AudioProcessorEditor (&p), 
     audioProcessor (p),
     webNoiseTypeRelay{webViewGui, ParameterID::noiseType.getParamID()},
+    webGlobalGainRelay{webViewGui, ParameterID::masterGain.getParamID()},
 //    webNoiseTypeRelay{ParameterID::noiseType.getParamID()},
     webViewGui{
         juce::WebBrowserComponent::Options{}
@@ -66,9 +67,12 @@ TDN01AudioProcessorEditor::TDN01AudioProcessorEditor (TDN01AudioProcessor& p)
               .withNativeIntegrationEnabled()
               .withUserScript(R"(console.log("C++ Backend here: This is run before any other loading happens.");)")
         .withOptionsFrom(webNoiseTypeRelay)
+        .withOptionsFrom(webGlobalGainRelay)
         },
         webNoiseTypeParameterAttachment{*p.apvts.getParameter(ParameterID::noiseType.getParamID()),
-        webNoiseTypeRelay, nullptr}
+        webNoiseTypeRelay, nullptr},
+        webGlobalGainParameterAttachment{*p.apvts.getParameter(ParameterID::masterGain.getParamID()),
+        webGlobalGainRelay, nullptr}
         
 {
     addAndMakeVisible(webViewGui);

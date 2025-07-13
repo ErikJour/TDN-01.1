@@ -35,15 +35,16 @@ private:
     
     //RELAYS
     juce::WebToggleButtonRelay webNoiseTypeRelay;
+    juce::WebSliderRelay webGlobalGainRelay;
     
     //Webview GUI
     juce::WebBrowserComponent webViewGui;
     
     //WEB PARAMETER ATTACHMENTS
     juce::WebToggleButtonParameterAttachment webNoiseTypeParameterAttachment;
+    juce::WebSliderParameterAttachment webGlobalGainParameterAttachment;
     
     //JUCE Sliders / Attachments
-    
     juce::Slider ampEnvAttackSlider;
     juce::Slider ampEnvDecaySlider;
     juce::Slider ampEnvSustainSlider;
