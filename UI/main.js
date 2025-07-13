@@ -71,15 +71,36 @@ particles.material.blending = THREE.AdditiveBlending;
 particles.material.color.set(neutraColorPalette.neutraPink)
 
 //NOISE TYPE SELECTION
-const noiseType = JUCE.getToggleState("noiseType");
+const noiseTypeTogleState = JUCE.getToggleState("noiseType");
+
+noiseTypeTogleState.valueChangedEvent.addListener(() => {
+
+    const noiseTypeValue = noiseTypeTogleState.getValue();
+    console.log(noiseTypeValue);
+
+    if (noiseTypeValue == 0) {
+       
+        particles.material.color.set(neutraColorPalette.neutraCream)
+    }
+
+    else if (noiseTypeValue == 1) {
+        //PINK
+        particles.material.color.set(neutraColorPalette.neutraPink)
+    }
+})
+
+
+
 
 //WHITE
-// noiseType.setValue(false);
-// particles.material.color.set(neutraColorPalette.neutraCream)
 
-//PINK
-noiseType.setValue(true);
-particles.material.color.set(neutraColorPalette.neutraPink)
+
+
+// else if (noiseType == 1) {
+
+
+// }
+
 
 //ARROWS
 scene.add(arrowUp);
@@ -163,7 +184,6 @@ scene.add(spotlightEast);
 scene.add(ambientLightA);
 ambientLightA.intensity = 8;
 
-//CONTROLS
 
 //CAMERA
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);
@@ -265,17 +285,6 @@ const animate = () => {
 
     //UPDATE PARTICLES
     particles.rotation.y = elapsedTime / 100;
-
-    //Wave Animation
-    // for (let i = 0; i < count; i++) 
-    // {
-    //     const i3 = i * 3;
-    //     const x = particles.geometry.attributes.position.array[i3];
-
-    //     particles.geometry.attributes.position.array[i3 + 1] = Math.sin(elapsedTime + x);
-    // }
-
-    //     particles.geometry.attributes.position.needsUpdate = true;
 
     renderer.render(scene, camera);
 };
