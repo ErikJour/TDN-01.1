@@ -54,8 +54,8 @@ const char* getMimeForExtension (const juce::String& extension)
 TDN01AudioProcessorEditor::TDN01AudioProcessorEditor (TDN01AudioProcessor& p)
     : AudioProcessorEditor (&p), 
     audioProcessor (p),
-    webNoiseTypeRelay{webViewGui, ParameterID::noiseType.getParamID()},
-    webGlobalGainRelay{webViewGui, ParameterID::masterGain.getParamID()},
+    webNoiseTypeRelay{ParameterID::noiseType.getParamID()},
+    webGlobalGainRelay{ParameterID::globalGain.getParamID()},
 //    webNoiseTypeRelay{ParameterID::noiseType.getParamID()},
     webViewGui{
         juce::WebBrowserComponent::Options{}
@@ -71,7 +71,7 @@ TDN01AudioProcessorEditor::TDN01AudioProcessorEditor (TDN01AudioProcessor& p)
         },
         webNoiseTypeParameterAttachment{*p.apvts.getParameter(ParameterID::noiseType.getParamID()),
         webNoiseTypeRelay, nullptr},
-        webGlobalGainParameterAttachment{*p.apvts.getParameter(ParameterID::masterGain.getParamID()),
+        webGlobalGainParameterAttachment{*p.apvts.getParameter(ParameterID::globalGain.getParamID()),
         webGlobalGainRelay, nullptr}
         
 {
@@ -100,10 +100,6 @@ TDN01AudioProcessorEditor::TDN01AudioProcessorEditor (TDN01AudioProcessor& p)
     ampEnvReleaseSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
     addAndMakeVisible(ampEnvReleaseSlider);
     
-    //MASTER GAIN
-    masterGainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    masterGainSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
-    addAndMakeVisible(masterGainSlider);
     
     //LABELS========================================================================================
     
@@ -126,11 +122,10 @@ TDN01AudioProcessorEditor::TDN01AudioProcessorEditor (TDN01AudioProcessor& p)
     filterLabel.setJustificationType(juce::Justification::centred);
     addAndMakeVisible(filterLabel);
     
-    //Global GAIN LABEL
-    globalGainLabel.setColour(juce::Label::textColourId, juce::Colours::whitesmoke);
-    globalGainLabel.setText ("Global Gain", juce::dontSendNotification);
-    globalGainLabel.setJustificationType(juce::Justification::centred);
-    addAndMakeVisible(globalGainLabel);
+    
+    //PANELS
+    bottomMenu = std::make_unique<BottomPanel>(&audioProcessor);
+    addAndMakeVisible(*bottomMenu);
     
     
     setSize (1000, 660);
@@ -151,18 +146,21 @@ void TDN01AudioProcessorEditor::resized()
     //WEBVIEW
     webViewGui.setBounds(100, 30, webViewWidth, webViewHeight);
     
+    //Panels
+    bottomMenu->setBounds(0, 560, PANEL_BOTTOM_WIDTH, PANEL_BOTTOM_HEIGHT);
+    
     //SLIDERS
     ampEnvAttackSlider.setBounds(820, 60, 80, 80);
     ampEnvDecaySlider.setBounds(900, 60, 80, 80);
     ampEnvSustainSlider.setBounds(820, 140, 80, 80);
     ampEnvReleaseSlider.setBounds(900, 140, 80, 80);
-    masterGainSlider.setBounds(20, 570, 60, 60);
+//    masterGainSlider.setBounds(20, 570, 60, 60);
     
     //LABELS
     nameLabel.setBounds(22, 0, 100, 50);
     envLabel.setBounds(850, 10, 100, 50);
     filterLabel.setBounds(850, 220, 100, 50);
-    globalGainLabel.setBounds(2.5, 540, 100, 50);
+//    globalGainLabel.setBounds(2.5, 540, 100, 50);
 }
 
 auto TDN01AudioProcessorEditor::getResource(const juce::String& url) -> std::optional<Resource>

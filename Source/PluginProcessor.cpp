@@ -28,7 +28,7 @@ TDN01AudioProcessor::TDN01AudioProcessor()
     castParameter(apvts, ParameterID::envSustain, envSustainParam);
     castParameter(apvts, ParameterID::envRelease, envReleaseParam);
     castParameter(apvts, ParameterID::noiseType, noiseTypeParam);
-    castParameter(apvts, ParameterID::masterGain, masterGainParam);
+    castParameter(apvts, ParameterID::globalGain, globalGainParam);
 }
 
 TDN01AudioProcessor::~TDN01AudioProcessor()
@@ -291,10 +291,10 @@ juce::AudioProcessorValueTreeState::ParameterLayout
         
         //Master Gain
         layout.add(std::make_unique<juce::AudioParameterFloat>(
-        ParameterID::masterGain,
+        ParameterID::globalGain,
         "Master Gain",
         juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f),
-        0.1f,
+        0.5f,
         juce::AudioParameterFloatAttributes().withLabel("Global Gain")
         ));
       
@@ -330,7 +330,7 @@ void TDN01AudioProcessor::update()
     noiseSynth.setNoiseType(updatedNoiseType);
     
     //Noise Level Update
-    float globalGain = masterGainParam->get();
+    float globalGain = globalGainParam->get();
     globalGain *= globalGain;
     noiseSynth.setGain(globalGain);
 

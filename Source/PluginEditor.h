@@ -10,6 +10,8 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "BottomPanel.h"
+#include "PanelDefines.h"
 
 //==============================================================================
 /**
@@ -79,10 +81,13 @@ private:
                                         ampEnvReleaseSlider};
     
     SliderAttachment globalGainAmount {audioProcessor.apvts,
-                                        ParameterID::masterGain.getParamID(),
+                                        ParameterID::globalGain.getParamID(),
                                         masterGainSlider};
     
 //    using ComboBoxAttachment = APVTS::
+    
+    //PANELS
+    std::unique_ptr<BottomPanel> bottomMenu;
 
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TDN01AudioProcessorEditor)

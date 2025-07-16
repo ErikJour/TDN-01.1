@@ -4,7 +4,31 @@
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" companyName="Jourgensen Audio"
               pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn">
   <MAINGROUP id="lKGPww" name="TDN-01">
+    <GROUP id="{C47054B5-F67C-636E-B914-810BF1781C30}" name="ParameterControls">
+      <FILE id="JUMPKi" name="TDNComboBox.cpp" compile="1" resource="0" file="Source/TDNComboBox.cpp"/>
+      <FILE id="So72TD" name="TDNComboBox.h" compile="0" resource="0" file="Source/TDNComboBox.h"/>
+      <FILE id="elvcyy" name="TDNSlider.cpp" compile="1" resource="0" file="Source/TDNSlider.cpp"/>
+      <FILE id="OYaWH5" name="TDNSlider.h" compile="0" resource="0" file="Source/TDNSlider.h"/>
+    </GROUP>
+    <GROUP id="{8C3AB662-AA11-123A-2D30-6DD2E582B1E3}" name="Panels">
+      <FILE id="rnIrTp" name="BottomPanel.cpp" compile="1" resource="0" file="Source/BottomPanel.cpp"/>
+      <FILE id="ytr4Dh" name="BottomPanel.h" compile="0" resource="0" file="Source/BottomPanel.h"/>
+      <FILE id="TipPnK" name="CenterPanel.cpp" compile="1" resource="0" file="Source/CenterPanel.cpp"/>
+      <FILE id="Ibiamj" name="CenterPanel.h" compile="0" resource="0" file="Source/CenterPanel.h"/>
+      <FILE id="c0nd1p" name="LeftPanel.cpp" compile="1" resource="0" file="Source/LeftPanel.cpp"/>
+      <FILE id="rhuaGW" name="LeftPanel.h" compile="0" resource="0" file="Source/LeftPanel.h"/>
+      <FILE id="aDWBV8" name="MainMenuPanel.cpp" compile="1" resource="0"
+            file="Source/MainMenuPanel.cpp"/>
+      <FILE id="UD7H8F" name="MainMenuPanel.h" compile="0" resource="0" file="Source/MainMenuPanel.h"/>
+      <FILE id="eku375" name="PanelBase.cpp" compile="1" resource="0" file="Source/PanelBase.cpp"/>
+      <FILE id="uPcrvc" name="PanelBase.h" compile="0" resource="0" file="Source/PanelBase.h"/>
+      <FILE id="vs7ZZr" name="RightPanel.cpp" compile="1" resource="0" file="Source/RightPanel.cpp"/>
+      <FILE id="MJheND" name="RightPanel.h" compile="0" resource="0" file="Source/RightPanel.h"/>
+      <FILE id="jkgi1U" name="TopPanel.cpp" compile="1" resource="0" file="Source/TopPanel.cpp"/>
+      <FILE id="SHQSea" name="TopPanel.h" compile="0" resource="0" file="Source/TopPanel.h"/>
+    </GROUP>
     <GROUP id="{34F787B4-23D8-C6C2-0890-84622656ADF3}" name="Helpers">
+      <FILE id="v2arol" name="PanelDefines.h" compile="0" resource="0" file="Source/PanelDefines.h"/>
       <FILE id="LhiXMN" name="Utils.h" compile="0" resource="0" file="Source/Utils.h"/>
     </GROUP>
     <GROUP id="{E6FC64F7-0FC0-EDA7-FAC6-14F13A31ECEF}" name="WebUI"/>
