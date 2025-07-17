@@ -79,56 +79,21 @@ TDN01AudioProcessorEditor::TDN01AudioProcessorEditor (TDN01AudioProcessor& p)
     juce::String localServer = "http://localhost:5173/";
     webViewGui.goToURL(localServer);
 //    webViewGui.goToURL(webViewGui.getResourceProviderRoot());
-    
-    //AMP ENV ATTACK
-    ampEnvAttackSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    ampEnvAttackSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
-    addAndMakeVisible(ampEnvAttackSlider);
-    
-    //AMP ENV DECAY
-    ampEnvDecaySlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    ampEnvDecaySlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
-    addAndMakeVisible(ampEnvDecaySlider);
-    
-    //AMP ENV SUSTAIN
-    ampEnvSustainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    ampEnvSustainSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
-    addAndMakeVisible(ampEnvSustainSlider);
-    
-    //AMP ENV RELEASE
-    ampEnvReleaseSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    ampEnvReleaseSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
-    addAndMakeVisible(ampEnvReleaseSlider);
-    
-    
-    //LABELS========================================================================================
-    
-    //NAME LABEL
-    nameLabel.setColour(juce::Label::textColourId, juce::Colours::whitesmoke);
-//    nameLabel.setFont (juce::Font (16.0f, juce::Font::bold));
-    nameLabel.setEditable (true);
-    nameLabel.setText ("TDN-01", juce::dontSendNotification);
-    addAndMakeVisible(nameLabel);
-    
-    //ENV LABEL
-    envLabel.setColour(juce::Label::textColourId, juce::Colours::whitesmoke);
-    envLabel.setText ("Amp Env", juce::dontSendNotification);
-    envLabel.setJustificationType(juce::Justification::centred);
-    addAndMakeVisible(envLabel);
-    
-    //FILTER LABEL
-    filterLabel.setColour(juce::Label::textColourId, juce::Colours::whitesmoke);
-    filterLabel.setText ("Filter", juce::dontSendNotification);
-    filterLabel.setJustificationType(juce::Justification::centred);
-    addAndMakeVisible(filterLabel);
-    
-    
+
     //PANELS
+    topMenu = std::make_unique<TopPanel>(&audioProcessor);
+    addAndMakeVisible(*topMenu);
+    
+    leftMenu = std::make_unique<LeftPanel>(&audioProcessor);
+    addAndMakeVisible(*leftMenu);
+    
     bottomMenu = std::make_unique<BottomPanel>(&audioProcessor);
     addAndMakeVisible(*bottomMenu);
     
+    rightMenu = std::make_unique<RightPanel>(&audioProcessor);
+    addAndMakeVisible(*rightMenu);
     
-    setSize (1000, 660);
+    setSize (PANEL_BASE_WIDTH, PANEL_BASE_HEIGHT);
 }
 
 TDN01AudioProcessorEditor::~TDN01AudioProcessorEditor()
@@ -148,19 +113,9 @@ void TDN01AudioProcessorEditor::resized()
     
     //Panels
     bottomMenu->setBounds(0, 560, PANEL_BOTTOM_WIDTH, PANEL_BOTTOM_HEIGHT);
+    leftMenu->setBounds(0, 0, PANEL_LEFT_WIDTH, PANEL_LEFT_HEIGHT);
+    rightMenu->setBounds(PANEL_LEFT_WIDTH + PANEL_CENTER_WIDTH, PANEL_TOP_HEIGHT, PANEL_RIGHT_WIDTH, PANEL_RIGHT_HEIGHT);
     
-    //SLIDERS
-    ampEnvAttackSlider.setBounds(820, 60, 80, 80);
-    ampEnvDecaySlider.setBounds(900, 60, 80, 80);
-    ampEnvSustainSlider.setBounds(820, 140, 80, 80);
-    ampEnvReleaseSlider.setBounds(900, 140, 80, 80);
-//    masterGainSlider.setBounds(20, 570, 60, 60);
-    
-    //LABELS
-    nameLabel.setBounds(22, 0, 100, 50);
-    envLabel.setBounds(850, 10, 100, 50);
-    filterLabel.setBounds(850, 220, 100, 50);
-//    globalGainLabel.setBounds(2.5, 540, 100, 50);
 }
 
 auto TDN01AudioProcessorEditor::getResource(const juce::String& url) -> std::optional<Resource>

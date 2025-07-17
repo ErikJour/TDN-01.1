@@ -9,3 +9,24 @@
 */
 
 #pragma once
+
+#include "PluginProcessor.h"
+#include "PanelBase.h"
+#include "TDNSlider.h"
+#include "PanelDefines.h"
+
+class LeftPanel : public Panel {
+    
+    public:
+    
+        LeftPanel(TDN01AudioProcessor* tdnProcessor);
+        ~LeftPanel();
+        
+        void paint(juce::Graphics& g) override;
+                  
+    private:
+    
+        
+
+    
+};

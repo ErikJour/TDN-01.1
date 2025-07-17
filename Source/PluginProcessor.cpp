@@ -29,6 +29,9 @@ TDN01AudioProcessor::TDN01AudioProcessor()
     castParameter(apvts, ParameterID::envRelease, envReleaseParam);
     castParameter(apvts, ParameterID::noiseType, noiseTypeParam);
     castParameter(apvts, ParameterID::globalGain, globalGainParam);
+    castParameter(apvts, ParameterID::lpCutoff, lpCutoffParam);
+    castParameter(apvts, ParameterID::lpResonance, lpResonanceParam);
+    castParameter(apvts, ParameterID::hpCutoff, hpCutoffParam);
 }
 
 TDN01AudioProcessor::~TDN01AudioProcessor()
@@ -297,6 +300,33 @@ juce::AudioProcessorValueTreeState::ParameterLayout
         0.5f,
         juce::AudioParameterFloatAttributes().withLabel("Global Gain")
         ));
+        
+        //LP CUTOFF
+        layout.add(std::make_unique<juce::AudioParameterFloat>(
+        ParameterID::lpCutoff,
+        "Low-pass Cutoff",
+        juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f),
+        0.75f,
+        juce::AudioParameterFloatAttributes().withLabel("Low-Pass Cutoff")
+        ));
+        
+        //LP Resonance
+        layout.add(std::make_unique<juce::AudioParameterFloat>(
+        ParameterID::lpResonance,
+        "Low-pass Resonance",
+        juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f),
+        0.35f,
+        juce::AudioParameterFloatAttributes().withLabel("Low-Pass Resonance")
+        ));
+        
+        //HP Cutoff
+        layout.add(std::make_unique<juce::AudioParameterFloat>(
+        ParameterID::hpCutoff,
+        "High-pass Cutoff",
+        juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f),
+        0.35f,
+        juce::AudioParameterFloatAttributes().withLabel("High-Pass Cutoff")
+        ));
       
         return layout;
 }
@@ -333,6 +363,21 @@ void TDN01AudioProcessor::update()
     float globalGain = globalGainParam->get();
     globalGain *= globalGain;
     noiseSynth.setGain(globalGain);
+    
+    //Low Pass Cutoff Update
+    float lowCutFreq = lpCutoffParam->get();
+//    globalGain *= globalGain;
+//    noiseSynth.setGain(globalGain);
+    
+    //Low Pass Resonance Update
+    float lowPassResonance = lpResonanceParam->get();
+//    globalGain *= globalGain;
+//    noiseSynth.setGain(globalGain);
+    
+    //High Pass Cutoff Update
+    float highPassCutoff = hpCutoffParam->get();
+//    globalGain *= globalGain;
+//    noiseSynth.setGain(globalGain);
 
 }
 

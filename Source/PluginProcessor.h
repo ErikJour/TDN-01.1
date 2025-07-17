@@ -23,6 +23,9 @@ PARAMETER_ID(envSustain)
 PARAMETER_ID(envRelease)
 PARAMETER_ID(noiseType)
 PARAMETER_ID(globalGain)
+PARAMETER_ID(lpCutoff)
+PARAMETER_ID(lpResonance)
+PARAMETER_ID(hpCutoff)
 
 #undef PARAMETER_ID
 
@@ -94,6 +97,9 @@ private:
     juce::AudioParameterFloat* envReleaseParam;
     juce::AudioParameterChoice* noiseTypeParam;
     juce::AudioParameterFloat* globalGainParam;
+    juce::AudioParameterFloat* lpCutoffParam;
+    juce::AudioParameterFloat* lpResonanceParam;
+    juce::AudioParameterFloat* hpCutoffParam;
     
     juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
 

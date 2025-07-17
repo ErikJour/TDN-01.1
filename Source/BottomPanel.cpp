@@ -12,7 +12,7 @@
 
 
 BottomPanel::BottomPanel(TDN01AudioProcessor* tdnProcessor) :
-Panel(tdnProcessor), sliderSize(60)
+Panel(tdnProcessor), sliderSize(SLIDER_SIZE)
 
 {
     
@@ -20,6 +20,14 @@ Panel(tdnProcessor), sliderSize(60)
     jassert(mProcessor != nullptr);
 
     setSize(PANEL_BOTTOM_WIDTH, PANEL_BOTTOM_HEIGHT);
+    
+    //GAIN LABEL
+    gainLabel = std::make_unique<juce::Label>();
+    gainLabel->setBounds(22.5, -30, sliderSize, sliderSize);
+    gainLabel->setColour(juce::Label::textColourId, juce::Colours::whitesmoke);
+    gainLabel->setText ("Volume", juce::dontSendNotification);
+    gainLabel->setJustificationType(juce::Justification::centredLeft);
+    addAndMakeVisible(*gainLabel);
     
 
     globalGainSlider = std::make_unique<TDNSlider> (mProcessor->apvts, ::ParameterID::globalGain.getParamID());

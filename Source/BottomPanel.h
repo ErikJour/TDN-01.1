@@ -13,6 +13,7 @@
 #include "PluginProcessor.h"
 #include "PanelBase.h"
 #include "TDNSlider.h"
+#include "PanelDefines.h"
 
 class BottomPanel : public Panel {
     
@@ -26,6 +27,8 @@ class BottomPanel : public Panel {
     private:
     
         std::unique_ptr<TDNSlider> globalGainSlider;
-    const int sliderSize;;
+        const int sliderSize;;
+        std::unique_ptr<juce::Label> gainLabel;
+
     
 };

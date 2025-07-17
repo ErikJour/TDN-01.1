@@ -10,6 +10,9 @@
 
 #pragma once
 
+#define SLIDER_SIZE 70
+#define COMBO_BOX_SIZE 100
+
 #define PANEL_BASE_WIDTH 1000
 #define PANEL_BASE_HEIGHT 660
 
