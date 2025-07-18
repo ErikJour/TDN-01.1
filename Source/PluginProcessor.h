@@ -85,6 +85,8 @@ public:
     NoiseSynth& getSynth() { return noiseSynth; }
     
     juce::AudioProcessorValueTreeState apvts {*this, nullptr, "Parameters", createParameterLayout() };
+    
+    std::atomic<float> currentEnvelopeValue {0.0f};
 
 
 private:
@@ -112,6 +114,8 @@ private:
     void update();
     
     std::atomic<bool> parametersChanged { false };
+    
+//    std::atomic<float> currentEnvelopeValue {0.0f};
 
     
     //==============================================================================

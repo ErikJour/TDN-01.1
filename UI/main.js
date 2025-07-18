@@ -160,13 +160,13 @@ console.log("Global gain: ", globalGainValue);
 })
 
 
-//ARROWS
-scene.add(arrowUp);
-scene.add(arrowDown);
-scene.add(arrowLeft);
-scene.add(arrowRight);
-scene.add(arrowGroup);
-arrowGroup.position.set(0, 5, -49);
+// //ARROWS
+// scene.add(arrowUp);
+// scene.add(arrowDown);
+// scene.add(arrowLeft);
+// scene.add(arrowRight);
+// scene.add(arrowGroup);
+// arrowGroup.position.set(0, 5, -49);
 
 //ADD LABELS
 const fontLoader = new FontLoader();
@@ -240,7 +240,7 @@ scene.add(spotlightWest);
 const spotlightEast = createSpotlight(50, 10, 0, 1000);
 scene.add(spotlightEast);
 scene.add(ambientLightA);
-ambientLightA.intensity = 8;
+ambientLightA.intensity = 9;
 
 
 //CAMERA
@@ -262,46 +262,60 @@ renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
 //MOVEMENT
-let moveForward = false;
-let moveBackward = false;
-let rotateLeft = false;
-let rotateRight = false;
-const moveSpeed = 0.4; 
-const rotationSpeed = 0.04; 
+// let moveForward = false;
+// let moveBackward = false;
+// let rotateLeft = false;
+// let rotateRight = false;
+// const moveSpeed = 0.4; 
+// const rotationSpeed = 0.04; 
 
-window.addEventListener('keydown', (event) => {
-    event.preventDefault();
-    switch (event.key) {
-        case 'ArrowUp':
-            moveForward = true;
-            break;
-        case 'ArrowDown':
-            moveBackward = true;
-            break;
-        case 'ArrowLeft':
-            rotateLeft = true;
-            break;
-        case 'ArrowRight':
-            rotateRight = true;
-            break;
-    }
-});
+// window.addEventListener('keydown', (event) => {
+//     event.preventDefault();
+//     switch (event.key) {
+//         case 'ArrowUp':
+//             moveForward = true;
+//             break;
+//         case 'ArrowDown':
+//             moveBackward = true;
+//             break;
+//         case 'ArrowLeft':
+//             rotateLeft = true;
+//             break;
+//         case 'ArrowRight':
+//             rotateRight = true;
+//             break;
+//     }
+// });
 
-window.addEventListener('keyup', (event) => {
-    switch (event.key) {
-        case 'ArrowUp':
-            moveForward = false;
-            break;
-        case 'ArrowDown':
-            moveBackward = false;
-            break;
-        case 'ArrowLeft':
-            rotateLeft = false;
-            break;
-        case 'ArrowRight':
-            rotateRight = false;
-            break;
-    }
+// window.addEventListener('keyup', (event) => {
+//     switch (event.key) {
+//         case 'ArrowUp':
+//             moveForward = false;
+//             break;
+//         case 'ArrowDown':
+//             moveBackward = false;
+//             break;
+//         case 'ArrowLeft':
+//             rotateLeft = false;
+//             break;
+//         case 'ArrowRight':
+//             rotateRight = false;
+//             break;
+//     }
+// });
+// const oscillationFrequency = 0;
+
+
+// window.__JUCE__.backend.addEventListener("EnvelopeValue", (event) => {
+//     oscillationFrequency = event.value; // ✅
+//     console.log("Envelope value:", oscillationFrequency);
+//     return 1; // ✅ Optional: ensure primitive return to avoid unsupportedReturnType assert
+// });
+
+window.__JUCE__.backend.addEventListener("EnvelopeValue", (event) => {
+    console.log("Env Value:", event)
+    ambientLightA.intensity  = event * 1000;
+ 
 });
 
 //MOVEMENT BOUNDS
@@ -320,26 +334,26 @@ const animate = () => {
 
     const elapsedTime = clock.getElapsedTime();
 
-    if (rotateLeft) camera.rotation.y += rotationSpeed;
-    if (rotateRight) camera.rotation.y -= rotationSpeed;
+    // if (rotateLeft) camera.rotation.y += rotationSpeed;
+    // if (rotateRight) camera.rotation.y -= rotationSpeed;
 
-    const wasdDirection = new THREE.Vector3();
-    camera.getWorldDirection(wasdDirection);
+    // const wasdDirection = new THREE.Vector3();
+    // camera.getWorldDirection(wasdDirection);
 
-    if (moveForward) {
-        camera.position.add(wasdDirection.multiplyScalar(moveSpeed));
-    }
-    if (moveBackward) {
-        camera.position.add(wasdDirection.multiplyScalar(-moveSpeed));
-    }
+    // if (moveForward) {
+    //     camera.position.add(wasdDirection.multiplyScalar(moveSpeed));
+    // }
+    // if (moveBackward) {
+    //     camera.position.add(wasdDirection.multiplyScalar(-moveSpeed));
+    // }
 
-    camera.position.z = THREE.MathUtils.clamp(camera.position.z, movementBounds.minimumZ, movementBounds.maxZ);
-    const distanceFromCenter = Math.sqrt(camera.position.x ** 2 + camera.position.y ** 2);
-    if (distanceFromCenter > movementBounds.radius) {
-        const scale = movementBounds.radius / distanceFromCenter;
-        camera.position.x *= scale;
-        camera.position.y *= scale;
-    }
+    // camera.position.z = THREE.MathUtils.clamp(camera.position.z, movementBounds.minimumZ, movementBounds.maxZ);
+    // const distanceFromCenter = Math.sqrt(camera.position.x ** 2 + camera.position.y ** 2);
+    // if (distanceFromCenter > movementBounds.radius) {
+    //     const scale = movementBounds.radius / distanceFromCenter;
+    //     camera.position.x *= scale;
+    //     camera.position.y *= scale;
+    // }
 
     //UPDATE PARTICLES
     points.rotation.y = elapsedTime / 100;

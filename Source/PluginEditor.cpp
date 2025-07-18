@@ -96,6 +96,8 @@ TDN01AudioProcessorEditor::TDN01AudioProcessorEditor (TDN01AudioProcessor& p)
     addAndMakeVisible(*rightMenu);
     
     setSize (PANEL_BASE_WIDTH, PANEL_BASE_HEIGHT);
+    
+    startTimer(30);
 }
 
 TDN01AudioProcessorEditor::~TDN01AudioProcessorEditor()
@@ -118,6 +120,20 @@ void TDN01AudioProcessorEditor::resized()
     leftMenu->setBounds(0, 0, PANEL_LEFT_WIDTH, PANEL_LEFT_HEIGHT);
     rightMenu->setBounds(PANEL_LEFT_WIDTH + PANEL_CENTER_WIDTH, PANEL_TOP_HEIGHT, PANEL_RIGHT_WIDTH, PANEL_RIGHT_HEIGHT);
     
+}
+
+void TDN01AudioProcessorEditor::timerCallback()
+{
+    envValue = audioProcessor.currentEnvelopeValue.load(std::memory_order_relaxed);
+    DBG("Envelope Value:" << envValue);
+    sendEnvelopeValue(envValue);
+
+}
+
+void TDN01AudioProcessorEditor::sendEnvelopeValue(float newValue)
+{
+        static const juce::Identifier EVENT_ID("EnvelopeValue");
+        webViewGui.emitEventIfBrowserIsVisible(EVENT_ID, newValue);
 }
 
 auto TDN01AudioProcessorEditor::getResource(const juce::String& url) -> std::optional<Resource>

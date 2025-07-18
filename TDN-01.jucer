@@ -35,6 +35,10 @@
     <GROUP id="{BCF7AEFB-3AA3-C377-46D0-E23B79D3BC96}" name="DSP">
       <FILE id="LRi19X" name="Envelope.cpp" compile="1" resource="0" file="Source/Envelope.cpp"/>
       <FILE id="IzDJuK" name="Envelope.h" compile="0" resource="0" file="Source/Envelope.h"/>
+      <FILE id="gNkBfg" name="EnvelopeListener.cpp" compile="1" resource="0"
+            file="Source/EnvelopeListener.cpp"/>
+      <FILE id="mHsVo4" name="EnvelopeListener.h" compile="0" resource="0"
+            file="Source/EnvelopeListener.h"/>
       <FILE id="P7DUeh" name="Filter.cpp" compile="1" resource="0" file="Source/Filter.cpp"/>
       <FILE id="clDcPS" name="Filter.h" compile="0" resource="0" file="Source/Filter.h"/>
       <FILE id="J0vqMO" name="LFO.cpp" compile="1" resource="0" file="Source/LFO.cpp"/>

@@ -32,6 +32,7 @@ class NoiseSynth
         float envDecay;
         float envSustain;
         float envRelease;
+        float getEnvelopeValue();
         
     private:
         double sampleRate;

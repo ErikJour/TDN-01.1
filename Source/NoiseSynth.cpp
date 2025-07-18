@@ -48,6 +48,7 @@ void NoiseSynth::render(float** outputBuffers, int sampleCount)
         float gain = gainSmoothed.getNextValue();
         
         outputBufferLeft[sample] = output * gain;
+    
                 
         if (outputBufferRight != nullptr) {
             
@@ -59,8 +60,10 @@ void NoiseSynth::render(float** outputBuffers, int sampleCount)
         }
     }
     
+    
     protectMyEars(outputBufferLeft, sampleCount);
     protectMyEars(outputBufferRight, sampleCount);
+    
     
 }
 
@@ -117,6 +120,11 @@ void NoiseSynth::setNoiseType(int newNoiseType)
 void NoiseSynth::setGain (float newGain)
 {
     gainSmoothed.setTargetValue(newGain);
+}
+
+float NoiseSynth::getEnvelopeValue()
+{
+    return voice.env.nextValue();
 }
 
 

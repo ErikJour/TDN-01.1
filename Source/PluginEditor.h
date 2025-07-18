@@ -19,7 +19,7 @@
 //==============================================================================
 /**
 */
-class TDN01AudioProcessorEditor  : public juce::AudioProcessorEditor
+class TDN01AudioProcessorEditor  : public juce::AudioProcessorEditor, public juce::Timer
 {
 public:
     TDN01AudioProcessorEditor (TDN01AudioProcessor&);
@@ -27,6 +27,8 @@ public:
 
     //==============================================================================
     void resized() override;
+    void timerCallback() override;
+    void sendEnvelopeValue(float newValue);
 
 private:
     
@@ -60,6 +62,8 @@ private:
     std::unique_ptr<LeftPanel> leftMenu;
     std::unique_ptr<TopPanel> topMenu;
     std::unique_ptr<RightPanel> rightMenu;
+    
+    float envValue {0.0f};
 
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TDN01AudioProcessorEditor)

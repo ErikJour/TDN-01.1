@@ -171,6 +171,10 @@ void TDN01AudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
     
     splitBufferByEvents(buffer, midiMessages);
     
+    float envValue = noiseSynth.getEnvelopeValue();
+    
+    currentEnvelopeValue.store(envValue, std::memory_order_relaxed);
+    
 }
 
 void TDN01AudioProcessor::render(juce::AudioBuffer<float>& buffer, int sampleCount, int bufferOffset)
@@ -364,20 +368,20 @@ void TDN01AudioProcessor::update()
     globalGain *= globalGain;
     noiseSynth.setGain(globalGain);
     
-    //Low Pass Cutoff Update
-    float lowCutFreq = lpCutoffParam->get();
-//    globalGain *= globalGain;
-//    noiseSynth.setGain(globalGain);
-    
-    //Low Pass Resonance Update
-    float lowPassResonance = lpResonanceParam->get();
-//    globalGain *= globalGain;
-//    noiseSynth.setGain(globalGain);
-    
-    //High Pass Cutoff Update
-    float highPassCutoff = hpCutoffParam->get();
-//    globalGain *= globalGain;
-//    noiseSynth.setGain(globalGain);
+//    //Low Pass Cutoff Update
+//    float lowCutFreq = lpCutoffParam->get();
+////    globalGain *= globalGain;
+////    noiseSynth.setGain(globalGain);
+//    
+//    //Low Pass Resonance Update
+//    float lowPassResonance = lpResonanceParam->get();
+////    globalGain *= globalGain;
+////    noiseSynth.setGain(globalGain);
+//    
+//    //High Pass Cutoff Update
+//    float highPassCutoff = hpCutoffParam->get();
+////    globalGain *= globalGain;
+////    noiseSynth.setGain(globalGain);
 
 }
 
