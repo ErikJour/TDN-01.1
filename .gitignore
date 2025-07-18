@@ -1,7 +1,49 @@
+# macOS
 .DS_Store
+
+# JUCE Projucer backups
+*.jucer.lock
+
+# Compiled object files and libs
+*.o
+*.obj
 *.a
-Builds/*/build/
+*.lib
+*.dll
+*.so
+*.dylib
+*.pdb
 
+# JUCE Builds
+Builds/
+JuceLibraryCode/
+
+# Visual Studio
+*.vcxproj.user
+*.sdf
+*.opensdf
+*.vcxproj.filters
+ipch/
+
+# Xcode
+*.xcworkspace
+*.xcuserdata/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake-build-*/
+
+# Node.js (Web UI)
 node_modules/
+UI/node_modules/
+UI/.vite/
+UI/dist/
 
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Other
 libs/

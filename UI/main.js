@@ -67,12 +67,60 @@ frontWall.rotateY(Math.PI);
 frontWall.position.set(0, 0, 50);
 
 // //NEW NOISE PARTICLES
-scene.add(particles);
+// scene.add(particles);
 particles.material.transparent = true;
 particles.material.alphaTest = 0.1; 
 particles.material.depthWrite = false; 
 particles.material.blending = THREE.AdditiveBlending; 
 particles.material.color.set(neutraColorPalette.neutraPink)
+
+//NOISE PARTICLE PT 2
+
+const parameters = {};
+
+parameters.count = 10000;
+parameters.size = 0.02;
+
+let points = null;
+
+const generatorGalaxy = () => 
+{
+    const geometry = new THREE.BufferGeometry();
+
+    const positions = new Float32Array(parameters.count * 3);
+
+    for (let i = 0; i < parameters.count; i++) {
+        const i3 = i * 3;
+        positions[i3 + 0] = (Math.random() - 0.5) * 50;
+        positions[i3 + 1] = (Math.random() - 0.5) * 50;
+        positions[i3 + 2] = (Math.random() - 0.5) * 50;
+
+    }
+
+    geometry.setAttribute(
+        'position',
+        new THREE.BufferAttribute(positions, 3)
+    )
+
+    const material = new THREE.PointsMaterial({
+        size: parameters.size,
+        sizeAttenuation: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending
+    })
+
+     points = new THREE.Points(geometry, material);
+
+    scene.add(points);
+
+}
+
+generatorGalaxy();
+
+
+//
+
+// scene.add(generatorGalaxe);
 
 //NOISE TYPE SELECTION
 const noiseTypeTogleState = JUCE.getToggleState("noiseType");
@@ -84,12 +132,15 @@ noiseTypeTogleState.valueChangedEvent.addListener(() => {
 
     if (noiseTypeValue == 0) {
        
-        particles.material.color.set(neutraColorPalette.neutraCream)
+        // particles.material.color.set(neutraColorPalette.neutraCream)
+        points.material.color.set(neutraColorPalette.neutraCream)
     }
 
     else if (noiseTypeValue == 1) {
         //PINK
-        particles.material.color.set(neutraColorPalette.neutraPink)
+        // particles.material.color.set(neutraColorPalette.neutraPink)
+        points.material.color.set(neutraColorPalette.neutraPink)
+
     }
 })
 
@@ -291,3 +342,4 @@ const animate = () => {
 };
 
 animate();
+

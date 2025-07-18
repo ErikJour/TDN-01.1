@@ -59,7 +59,9 @@ TDN01AudioProcessorEditor::TDN01AudioProcessorEditor (TDN01AudioProcessor& p)
 //    webNoiseTypeRelay{ParameterID::noiseType.getParamID()},
     webViewGui{
         juce::WebBrowserComponent::Options{}
-              .withBackend(juce::WebBrowserComponent::Options::Backend::defaultBackend)
+              .withBackend(juce::WebBrowserComponent::Options::Backend::webview2)
+               .withWinWebView2Options(juce::WebBrowserComponent::Options::WinWebView2{}
+               .withUserDataFolder(juce::File::getSpecialLocation(juce::File::tempDirectory)))
               .withResourceProvider([this](const auto& url){
               return getResource(url);},
               juce::URL{ juce::WebBrowserComponent::getResourceProviderRoot() }
