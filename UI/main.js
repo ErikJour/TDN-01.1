@@ -5,7 +5,7 @@ import { levelBottomMesh, createSphere, createWall } from './objects';
 import { pinkMaterial, labelMaterial, whiteMaterial } from './materials.js';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
-import { particles, count, positions } from './noiseParticles.js';
+// import { particles, count, positions } from './noiseParticles.js';
 import { neutraColorPalette } from './colors.js';
 import { arrowUp, arrowDown, arrowLeft, arrowRight, arrowGroup } from './arrows.js'
 
@@ -68,26 +68,44 @@ frontWall.position.set(0, 0, 50);
 
 // //NEW NOISE PARTICLES
 // scene.add(particles);
-particles.material.transparent = true;
-particles.material.alphaTest = 0.1; 
-particles.material.depthWrite = false; 
-particles.material.blending = THREE.AdditiveBlending; 
-particles.material.color.set(neutraColorPalette.neutraPink)
+// particles.material.transparent = true;
+// particles.material.alphaTest = 0.1; 
+// particles.material.depthWrite = false; 
+// particles.material.blending = THREE.AdditiveBlending; 
+// particles.material.color.set(neutraColorPalette.neutraPink)
 
-//NOISE PARTICLE PT 2
-
+//NOISE PARTICLE PT 2========================================
 const parameters = {};
-
-parameters.count = 10000;
-parameters.size = 0.02;
-
+parameters.maxCount = 100000;
+const positions = new Float32Array(parameters.maxCount * 3);
 let points = null;
+let geometry = null;
+let material = null;
 
-const generatorGalaxy = () => 
+geometry = new THREE.BufferGeometry();
+
+geometry.setAttribute(
+        'position',
+        new THREE.BufferAttribute(positions, 3)
+    )
+
+parameters.size = 0.01;
+
+
+material = new THREE.PointsMaterial({
+        size: parameters.size,
+        sizeAttenuation: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending
+    })
+
+points = new THREE.Points(geometry, material);
+scene.add(points);
+
+
+function generateParticles(newCount)
 {
-    const geometry = new THREE.BufferGeometry();
-
-    const positions = new Float32Array(parameters.count * 3);
+  parameters.count = newCount
 
     for (let i = 0; i < parameters.count; i++) {
         const i3 = i * 3;
@@ -97,28 +115,12 @@ const generatorGalaxy = () =>
 
     }
 
-    geometry.setAttribute(
-        'position',
-        new THREE.BufferAttribute(positions, 3)
-    )
-
-    const material = new THREE.PointsMaterial({
-        size: parameters.size,
-        sizeAttenuation: true,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending
-    })
-
-     points = new THREE.Points(geometry, material);
-
-    scene.add(points);
+    geometry.attributes.position.needsUpdate = true;
+    geometry.setDrawRange(0, parameters.count);
 
 }
 
-generatorGalaxy();
-
-
-//
+//===========================================================
 
 // scene.add(generatorGalaxe);
 
@@ -145,12 +147,16 @@ noiseTypeTogleState.valueChangedEvent.addListener(() => {
 })
 
 //GLOBAL GAIN PARAM
-const globalGainState = JUCE.getSliderState("masterGain");
+const globalGainState = JUCE.getSliderState("globalGain");
 
 globalGainState.valueChangedEvent.addListener(() => {
-    const globalGainValue = globalGainState.getNormalisedValue();
-    console.log(globalGainValue);
-    // particles. = globalGainValue;
+const globalGainValue = globalGainState.getNormalisedValue();
+console.log("Global gain: ", globalGainValue);
+//  const newCount = globalGainValue * parameters.maxCount;
+
+ const exp = 3;
+ const newCount = Math.floor(Math.pow(globalGainValue, exp) * parameters.maxCount);
+ generateParticles(newCount);
 })
 
 
@@ -200,27 +206,27 @@ return wordMesh;
 }
 
 //LFO LABEL
-const lfoWordX = 0;
-const lfoWordZ = -49;
-const lfoWord = createLabel (lfoWordX, lfoWordZ, 'LFO');
+// const lfoWordX = 0;
+// const lfoWordZ = -49;
+// const lfoWord = createLabel (lfoWordX, lfoWordZ, 'LFO');
 
-//NOISE TYPE LABEL
-const noiseTypeX = 0;
-const noiseTypeZ = 49;
-const noiseTypeWord = createLabel (noiseTypeX, noiseTypeZ, 'Noise Type');
-noiseTypeWord.rotation.y = Math.PI;
+// //NOISE TYPE LABEL
+// const noiseTypeX = 0;
+// const noiseTypeZ = 49;
+// const noiseTypeWord = createLabel (noiseTypeX, noiseTypeZ, 'Noise Type');
+// noiseTypeWord.rotation.y = Math.PI;
 
-//ADSR LABEL
-const adsrX = -49;
-const adsrZ = 0;
-const adsrWord = createLabel (adsrX, adsrZ, 'ADSR');
-adsrWord.rotation.y = Math.PI / 2;
+// //ADSR LABEL
+// const adsrX = -49;
+// const adsrZ = 0;
+// const adsrWord = createLabel (adsrX, adsrZ, 'ADSR');
+// adsrWord.rotation.y = Math.PI / 2;
 
-//FILTERS
-const filterX = 49;
-const filterZ = 0;
-const filterWord = createLabel (filterX, filterZ, 'Filters');
-filterWord.rotation.y = Math.PI * 1.5;
+// //FILTERS
+// const filterX = 49;
+// const filterZ = 0;
+// const filterWord = createLabel (filterX, filterZ, 'Filters');
+// filterWord.rotation.y = Math.PI * 1.5;
 
 });
 
@@ -336,7 +342,7 @@ const animate = () => {
     }
 
     //UPDATE PARTICLES
-    particles.rotation.y = elapsedTime / 100;
+    points.rotation.y = elapsedTime / 100;
 
     renderer.render(scene, camera);
 };
