@@ -13,6 +13,7 @@
 #include "Envelope.h"
 #include "LFO.h"
 #include "PinkNoise.h"
+#include "Filter.h"
 
 
 struct NoiseVoice
@@ -23,6 +24,9 @@ struct NoiseVoice
     Envelope env;
     LFO lfo;
     int noiseType;
+    Filter lowPassFilter;
+    Filter highPassFilter;
+
   
 
 void reset()
@@ -31,7 +35,6 @@ void reset()
     noise.setlevel(0.2f);
     env.reset();
     lfo.reset();
-    
 }
 
 float render()
@@ -48,18 +51,34 @@ float render()
     //White Noise
     if (noiseType == 0) {
         
-        output = whiteNoiseSample * envelope;
+        output = whiteNoiseSample;
         
     } else if (noiseType == 1) {
         
-    output = pinkNoiseSample * envelope;
+    output = pinkNoiseSample;
 
     }
 //    float modulatedSample = modulated * noiseSample;
 //    float modulatedSample = modulated * pinkNoiseSample;
 
-    return output;
+    //NEW, And MOVED ENVELOPE BELOW (FROM NOISE SAMPLE IF STATEMENTS EARLIER)
+    output = lowPassFilter.render(output);
+    output = highPassFilter.render(output);
+
+
+    return output * envelope;
     
+}
+
+void updateLPFilter(float cutoff, float resonance)
+{
+    lowPassFilter.updateCoefficients(cutoff, resonance);
+}
+
+void updateHPFilter(float cutoff)
+{
+    float resonance = 0.0f;
+    highPassFilter.updateCoefficients(cutoff, resonance);
 }
     
 };

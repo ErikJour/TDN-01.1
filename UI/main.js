@@ -66,14 +66,6 @@ rightWall.position.set(50, 0, 0);
 frontWall.rotateY(Math.PI);
 frontWall.position.set(0, 0, 50);
 
-// //NEW NOISE PARTICLES
-// scene.add(particles);
-// particles.material.transparent = true;
-// particles.material.alphaTest = 0.1; 
-// particles.material.depthWrite = false; 
-// particles.material.blending = THREE.AdditiveBlending; 
-// particles.material.color.set(neutraColorPalette.neutraPink)
-
 //NOISE PARTICLE PT 2========================================
 const parameters = {};
 parameters.maxCount = 100000;
@@ -159,14 +151,6 @@ console.log("Global gain: ", globalGainValue);
  generateParticles(newCount);
 })
 
-
-// //ARROWS
-// scene.add(arrowUp);
-// scene.add(arrowDown);
-// scene.add(arrowLeft);
-// scene.add(arrowRight);
-// scene.add(arrowGroup);
-// arrowGroup.position.set(0, 5, -49);
 
 //ADD LABELS
 const fontLoader = new FontLoader();
@@ -306,15 +290,9 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap
 // const oscillationFrequency = 0;
 
 
-// window.__JUCE__.backend.addEventListener("EnvelopeValue", (event) => {
-//     oscillationFrequency = event.value; // ✅
-//     console.log("Envelope value:", oscillationFrequency);
-//     return 1; // ✅ Optional: ensure primitive return to avoid unsupportedReturnType assert
-// });
-
 window.__JUCE__.backend.addEventListener("EnvelopeValue", (event) => {
     console.log("Env Value:", event)
-    ambientLightA.intensity  = event * 1000;
+    ambientLightA.intensity  = event * 20;
  
 });
 
@@ -333,27 +311,6 @@ const animate = () => {
 
 
     const elapsedTime = clock.getElapsedTime();
-
-    // if (rotateLeft) camera.rotation.y += rotationSpeed;
-    // if (rotateRight) camera.rotation.y -= rotationSpeed;
-
-    // const wasdDirection = new THREE.Vector3();
-    // camera.getWorldDirection(wasdDirection);
-
-    // if (moveForward) {
-    //     camera.position.add(wasdDirection.multiplyScalar(moveSpeed));
-    // }
-    // if (moveBackward) {
-    //     camera.position.add(wasdDirection.multiplyScalar(-moveSpeed));
-    // }
-
-    // camera.position.z = THREE.MathUtils.clamp(camera.position.z, movementBounds.minimumZ, movementBounds.maxZ);
-    // const distanceFromCenter = Math.sqrt(camera.position.x ** 2 + camera.position.y ** 2);
-    // if (distanceFromCenter > movementBounds.radius) {
-    //     const scale = movementBounds.radius / distanceFromCenter;
-    //     camera.position.x *= scale;
-    //     camera.position.y *= scale;
-    // }
 
     //UPDATE PARTICLES
     points.rotation.y = elapsedTime / 100;

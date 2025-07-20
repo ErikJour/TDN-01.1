@@ -19,10 +19,22 @@ NoiseSynth::NoiseSynth() : envAttack(0.0f), envDecay(0.0f), envSustain(0.0f), en
 
 }
 
-void NoiseSynth::distributeResources(double sampleRate, int samplesPerBlock)
+void NoiseSynth::distributeResources(double sampleRate_, int samplesPerBlock)
 {
-    sampleRate = this->sampleRate;
+    sampleRate = static_cast<float> (sampleRate_);
+    juce::dsp::ProcessSpec spec{ sampleRate, static_cast<juce::uint32>(samplesPerBlock), 1 };
+
+    //LFO SETUP
     voice.lfo.setSampleRate(sampleRate);
+
+    //Low Pass Filter Setup
+    voice.lowPassFilter.setMode(juce::dsp::LadderFilterMode::LPF12);
+    voice.lowPassFilter.prepare(spec);
+
+    //High Pass Filter Setup
+    voice.highPassFilter.setMode(juce::dsp::LadderFilterMode::HPF24);
+    voice.highPassFilter.prepare(spec);
+
 }
 
 void NoiseSynth::releaseResources()
@@ -127,5 +139,16 @@ float NoiseSynth::getEnvelopeValue()
     return voice.env.nextValue();
 }
 
+void NoiseSynth::updateLPFilterCoefficients(float cutoff, float resonance)
+{
+   
+        voice.updateLPFilter(cutoff, resonance); 
+    
+}
+
+void NoiseSynth::updateHPFilterCoefficients(float cutoff)
+{
+    voice.updateHPFilter(cutoff);
+}
 
 

@@ -26,7 +26,7 @@ const matcapD = textureLoader.load('matcaps/4A6442_D0AB75_81CD94_181B12-512px.pn
 
 const levelMaterial = new THREE.MeshStandardMaterial({
     
-    color: 'BLACK'});
+    color: 'black'});
 
 levelMaterial.map = newNoiseTextureA
 // levelMaterial.matcap = matcapC

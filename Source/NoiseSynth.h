@@ -27,6 +27,8 @@ class NoiseSynth
         void noteOff(int note);
         void setNoiseType(int newNoiseType);
         void setGain (float newGain);
+        void updateLPFilterCoefficients(float cutoff, float resonance);
+        void updateHPFilterCoefficients(float cutoff);
     
         float envAttack;
         float envDecay;
