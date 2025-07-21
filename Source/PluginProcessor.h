@@ -26,6 +26,8 @@ PARAMETER_ID(globalGain)
 PARAMETER_ID(lpCutoff)
 PARAMETER_ID(lpResonance)
 PARAMETER_ID(hpCutoff)
+PARAMETER_ID(lfoDepth)
+PARAMETER_ID(lfoRate)
 
 #undef PARAMETER_ID
 
@@ -102,6 +104,8 @@ private:
     juce::AudioParameterFloat* lpCutoffParam;
     juce::AudioParameterFloat* lpResonanceParam;
     juce::AudioParameterFloat* hpCutoffParam;
+    juce::AudioParameterFloat* lfoDepthParam;
+    juce::AudioParameterFloat* lfoRateParam;
     
     juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
 
@@ -115,7 +119,6 @@ private:
     
     std::atomic<bool> parametersChanged { false };
     
-//    std::atomic<float> currentEnvelopeValue {0.0f};
 
     
     //==============================================================================

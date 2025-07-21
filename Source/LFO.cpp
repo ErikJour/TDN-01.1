@@ -38,7 +38,6 @@ void LFO::setRate(float newRate)
 
 void LFO::setDepth(float newDepth)
 {
-    newDepth = 0.5f;
     smoothedDepth.setTargetValue(newDepth);
 }
 

@@ -44,7 +44,7 @@ float render()
     pinkNoiseSample *= 0.35f;
     whiteNoiseSample *= 1.5f;
     float envelope = env.nextValue();
-//    float modulated = lfo.getNextSample();
+    float modulated = lfo.getNextSample();
     
     float output = 0.0f;
 
@@ -58,15 +58,12 @@ float render()
     output = pinkNoiseSample;
 
     }
-//    float modulatedSample = modulated * noiseSample;
-//    float modulatedSample = modulated * pinkNoiseSample;
 
-    //NEW, And MOVED ENVELOPE BELOW (FROM NOISE SAMPLE IF STATEMENTS EARLIER)
     output = lowPassFilter.render(output);
     output = highPassFilter.render(output);
 
 
-    return output * envelope;
+    return output * envelope * modulated;
     
 }
 

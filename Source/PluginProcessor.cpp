@@ -32,6 +32,8 @@ TDN01AudioProcessor::TDN01AudioProcessor()
     castParameter(apvts, ParameterID::lpCutoff, lpCutoffParam);
     castParameter(apvts, ParameterID::lpResonance, lpResonanceParam);
     castParameter(apvts, ParameterID::hpCutoff, hpCutoffParam);
+    castParameter(apvts, ParameterID::lfoDepth, lfoDepthParam);
+    castParameter(apvts, ParameterID::lfoRate, lfoRateParam);
 }
 
 TDN01AudioProcessor::~TDN01AudioProcessor()
@@ -236,15 +238,14 @@ juce::AudioProcessorEditor* TDN01AudioProcessor::createEditor()
 //==============================================================================
 void TDN01AudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
+    juce::ignoreUnused(destData);
 }
 
 void TDN01AudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
+    juce::ignoreUnused(data);
+    juce::ignoreUnused(sizeInBytes);
+
 }
 
 juce::AudioProcessorValueTreeState::ParameterLayout
@@ -318,7 +319,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout
         layout.add(std::make_unique<juce::AudioParameterFloat>(
         ParameterID::lpResonance,
         "Resonance",
-        juce::NormalisableRange<float>(0.3f, 5.0f, 0.001f),
+        juce::NormalisableRange<float>(0.3f, 10.0f, 0.001f),
         2.0f,
         juce::AudioParameterFloatAttributes().withLabel("%")
         ));
@@ -327,9 +328,27 @@ juce::AudioProcessorValueTreeState::ParameterLayout
         layout.add(std::make_unique<juce::AudioParameterFloat>(
         ParameterID::hpCutoff,
         "High-pass Cutoff",
-        juce::NormalisableRange<float>(0.0f, 100.0f, 0.01f),
-        50.0f,
+        juce::NormalisableRange<float>(0.0f, 75.0f, 0.01f),
+        0.0f,
         juce::AudioParameterFloatAttributes().withLabel("%")
+        ));
+
+        //LFO Depth
+        layout.add(std::make_unique<juce::AudioParameterFloat>(
+        ParameterID::lfoDepth,
+        "LFO Depth",
+        juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f),
+        0.0f,
+        juce::AudioParameterFloatAttributes().withLabel("Depth")
+        ));
+
+        //LFO Depth
+        layout.add(std::make_unique<juce::AudioParameterFloat>(
+        ParameterID::lfoRate,
+        "LFO Rate",
+        juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f),
+        0.0f,
+        juce::AudioParameterFloatAttributes().withLabel("Depth")
         ));
       
         return layout;
@@ -374,12 +393,19 @@ void TDN01AudioProcessor::update()
     filterResoance *= filterResoance;
     noiseSynth.updateLPFilterCoefficients(filterCutoffFreq, filterResoance);
 
-//    
-//    //High Pass Cutoff Update
+   //High Pass Cutoff Update
     float highPassCutoff = hpCutoffParam->get();
     highPassCutoff *= highPassCutoff;
     noiseSynth.updateHPFilterCoefficients(highPassCutoff);
 
+    //LFO Updates
+    float lfoDepth = lfoDepthParam->get();
+    lfoDepth *= lfoDepth;
+    noiseSynth.updateLfoDepth(lfoDepth);
+
+    float lfoRate = lfoRateParam->get();
+    lfoRate *= lfoRate;
+    noiseSynth.updateLfoRate(newRate);
 }
 
 //==============================================================================

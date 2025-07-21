@@ -151,4 +151,14 @@ void NoiseSynth::updateHPFilterCoefficients(float cutoff)
     voice.updateHPFilter(cutoff);
 }
 
+void NoiseSynth::updateLfoDepth(float newDeoth)
+{
+    voice.lfo.setDepth(newDeoth);
+}
+
+void NoiseSynth::updateLfoRate(float newRate)
+{
+    voice.lfo.setRate(newRate);
+}
+
 
