@@ -56,7 +56,7 @@ TDN01AudioProcessorEditor::TDN01AudioProcessorEditor (TDN01AudioProcessor& p)
     audioProcessor (p),
     webNoiseTypeRelay{ParameterID::noiseType.getParamID()},
     webGlobalGainRelay{ParameterID::globalGain.getParamID()},
-//    webNoiseTypeRelay{ParameterID::noiseType.getParamID()},
+    webLPCutoffRelay{ParameterID::lpCutoff.getParamID()},
     webViewGui{
         juce::WebBrowserComponent::Options{}
               .withBackend(juce::WebBrowserComponent::Options::Backend::webview2)
@@ -70,11 +70,14 @@ TDN01AudioProcessorEditor::TDN01AudioProcessorEditor (TDN01AudioProcessor& p)
               .withUserScript(R"(console.log("C++ Backend here: This is run before any other loading happens.");)")
         .withOptionsFrom(webNoiseTypeRelay)
         .withOptionsFrom(webGlobalGainRelay)
+        .withOptionsFrom(webLPCutoffRelay)
         },
         webNoiseTypeParameterAttachment{*p.apvts.getParameter(ParameterID::noiseType.getParamID()),
         webNoiseTypeRelay, nullptr},
         webGlobalGainParameterAttachment{*p.apvts.getParameter(ParameterID::globalGain.getParamID()),
-        webGlobalGainRelay, nullptr}
+        webGlobalGainRelay, nullptr},
+        webLPCutoffParameterAttachment{*p.apvts.getParameter(ParameterID::lpCutoff.getParamID()),
+        webLPCutoffRelay, nullptr}
         
 {
     addAndMakeVisible(webViewGui);
@@ -125,7 +128,6 @@ void TDN01AudioProcessorEditor::resized()
 void TDN01AudioProcessorEditor::timerCallback()
 {
     envValue = audioProcessor.currentEnvelopeValue.load(std::memory_order_relaxed);
-    DBG("Envelope Value:" << envValue);
     sendEnvelopeValue(envValue);
 
 }

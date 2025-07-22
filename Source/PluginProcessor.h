@@ -28,6 +28,7 @@ PARAMETER_ID(lpResonance)
 PARAMETER_ID(hpCutoff)
 PARAMETER_ID(lfoDepth)
 PARAMETER_ID(lfoRate)
+PARAMETER_ID(lfoSource)
 
 #undef PARAMETER_ID
 
@@ -106,6 +107,7 @@ private:
     juce::AudioParameterFloat* hpCutoffParam;
     juce::AudioParameterFloat* lfoDepthParam;
     juce::AudioParameterFloat* lfoRateParam;
+    juce::AudioParameterChoice* lfoSourceParam;
     
     juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
 

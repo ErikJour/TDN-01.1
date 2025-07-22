@@ -114,8 +114,6 @@ function generateParticles(newCount)
 
 //===========================================================
 
-// scene.add(generatorGalaxe);
-
 //NOISE TYPE SELECTION
 const noiseTypeTogleState = JUCE.getToggleState("noiseType");
 
@@ -126,13 +124,10 @@ noiseTypeTogleState.valueChangedEvent.addListener(() => {
 
     if (noiseTypeValue == 0) {
        
-        // particles.material.color.set(neutraColorPalette.neutraCream)
         points.material.color.set(neutraColorPalette.neutraCream)
     }
 
     else if (noiseTypeValue == 1) {
-        //PINK
-        // particles.material.color.set(neutraColorPalette.neutraPink)
         points.material.color.set(neutraColorPalette.neutraPink)
 
     }
@@ -149,6 +144,32 @@ console.log("Global gain: ", globalGainValue);
  const exp = 3;
  const newCount = Math.floor(Math.pow(globalGainValue, exp) * parameters.maxCount);
  generateParticles(newCount);
+})
+
+//Fog
+// const desaturatedTunnel = new THREE.Color(tunnelColor).lerp(new THREE.Color(0x808080), 0.1);
+scene.fog = new THREE.FogExp2(neutraColorPalette.mutedTeal, 0.03);
+
+//LP FILTER PARAM
+const lpCutoffState = JUCE.getSliderState("lpCutoff");
+
+lpCutoffState.valueChangedEvent.addListener(() => {
+const filterCutoffValue = lpCutoffState.getNormalisedValue();
+console.log("LP Filter Cutoff: ", filterCutoffValue);
+
+//Experiment
+
+const normalizedCutoff = filterCutoffValue > 1 ? filterCutoffValue / 100 : filterCutoffValue;
+
+// Fog
+const minLight = 0.002;
+const maxLight = 0.04;
+const invertedIntensity = 1 - normalizedCutoff;
+scene.fog.density = Math.min(maxLight, Math.max(invertedIntensity * maxLight, minLight));
+
+//
+
+ 
 })
 
 
@@ -189,29 +210,6 @@ scene.add(wordMesh);
 return wordMesh;
 }
 
-//LFO LABEL
-// const lfoWordX = 0;
-// const lfoWordZ = -49;
-// const lfoWord = createLabel (lfoWordX, lfoWordZ, 'LFO');
-
-// //NOISE TYPE LABEL
-// const noiseTypeX = 0;
-// const noiseTypeZ = 49;
-// const noiseTypeWord = createLabel (noiseTypeX, noiseTypeZ, 'Noise Type');
-// noiseTypeWord.rotation.y = Math.PI;
-
-// //ADSR LABEL
-// const adsrX = -49;
-// const adsrZ = 0;
-// const adsrWord = createLabel (adsrX, adsrZ, 'ADSR');
-// adsrWord.rotation.y = Math.PI / 2;
-
-// //FILTERS
-// const filterX = 49;
-// const filterZ = 0;
-// const filterWord = createLabel (filterX, filterZ, 'Filters');
-// filterWord.rotation.y = Math.PI * 1.5;
-
 });
 
 // ADD LIGHTS
@@ -244,50 +242,6 @@ renderer.render(scene, camera);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.PCFSoftShadowMap
-
-//MOVEMENT
-// let moveForward = false;
-// let moveBackward = false;
-// let rotateLeft = false;
-// let rotateRight = false;
-// const moveSpeed = 0.4; 
-// const rotationSpeed = 0.04; 
-
-// window.addEventListener('keydown', (event) => {
-//     event.preventDefault();
-//     switch (event.key) {
-//         case 'ArrowUp':
-//             moveForward = true;
-//             break;
-//         case 'ArrowDown':
-//             moveBackward = true;
-//             break;
-//         case 'ArrowLeft':
-//             rotateLeft = true;
-//             break;
-//         case 'ArrowRight':
-//             rotateRight = true;
-//             break;
-//     }
-// });
-
-// window.addEventListener('keyup', (event) => {
-//     switch (event.key) {
-//         case 'ArrowUp':
-//             moveForward = false;
-//             break;
-//         case 'ArrowDown':
-//             moveBackward = false;
-//             break;
-//         case 'ArrowLeft':
-//             rotateLeft = false;
-//             break;
-//         case 'ArrowRight':
-//             rotateRight = false;
-//             break;
-//     }
-// });
-// const oscillationFrequency = 0;
 
 
 window.__JUCE__.backend.addEventListener("EnvelopeValue", (event) => {

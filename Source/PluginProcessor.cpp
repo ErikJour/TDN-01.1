@@ -34,6 +34,7 @@ TDN01AudioProcessor::TDN01AudioProcessor()
     castParameter(apvts, ParameterID::hpCutoff, hpCutoffParam);
     castParameter(apvts, ParameterID::lfoDepth, lfoDepthParam);
     castParameter(apvts, ParameterID::lfoRate, lfoRateParam);
+    castParameter(apvts, ParameterID::lfoSource, lfoSourceParam);
 }
 
 TDN01AudioProcessor::~TDN01AudioProcessor()
@@ -310,8 +311,8 @@ juce::AudioProcessorValueTreeState::ParameterLayout
         layout.add(std::make_unique<juce::AudioParameterFloat>(
         ParameterID::lpCutoff,
         "Cutoff Freq",
-        juce::NormalisableRange<float>(0.0f, 100.0f, 0.1f),
-        100.0f,
+        juce::NormalisableRange<float>(0.1f, 100.0f, 0.1f),
+        80.0f,
         juce::AudioParameterFloatAttributes().withLabel("%")
         ));
 
@@ -328,8 +329,8 @@ juce::AudioProcessorValueTreeState::ParameterLayout
         layout.add(std::make_unique<juce::AudioParameterFloat>(
         ParameterID::hpCutoff,
         "High-pass Cutoff",
-        juce::NormalisableRange<float>(0.0f, 75.0f, 0.01f),
-        0.0f,
+        juce::NormalisableRange<float>(0.1f, 75.0f, 0.01f),
+        0.1f,
         juce::AudioParameterFloatAttributes().withLabel("%")
         ));
 
@@ -350,6 +351,13 @@ juce::AudioProcessorValueTreeState::ParameterLayout
         0.0f,
         juce::AudioParameterFloatAttributes().withLabel("Depth")
         ));
+        
+        //LFO SOurce
+        layout.add(std::make_unique<juce::AudioParameterChoice>(
+        ParameterID::lfoSource,
+        "LFO Source",
+        juce::StringArray { "Volume", "LP Cutoff", "HP Cutoff"},
+        0));
       
         return layout;
 }
@@ -405,7 +413,7 @@ void TDN01AudioProcessor::update()
 
     float lfoRate = lfoRateParam->get();
     lfoRate *= lfoRate;
-    noiseSynth.updateLfoRate(newRate);
+    noiseSynth.updateLfoRate(lfoRate);
 }
 
 //==============================================================================

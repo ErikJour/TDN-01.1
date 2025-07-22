@@ -14,6 +14,8 @@
 #include "PanelBase.h"
 #include "TDNSlider.h"
 #include "PanelDefines.h"
+#include "TDNComboBox.h"
+
 
 class LeftPanel : public Panel {
     
@@ -25,6 +27,18 @@ class LeftPanel : public Panel {
         void paint(juce::Graphics& g) override;
                   
     private:
+    
+        std::unique_ptr<TDNComboBox> lfoSourceComboBox;
+        const int comboBoxSize;
+    
+        std::unique_ptr<TDNSlider> lfoRateSlider;
+        std::unique_ptr<TDNSlider> lfoDepthSlider;
+
+        const int sliderSize;
+    
+        std::unique_ptr<juce::Label> lfoLabel;
+
+
     
         
 

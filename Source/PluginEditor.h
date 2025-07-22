@@ -43,6 +43,7 @@ private:
     //RELAYS
     juce::WebToggleButtonRelay webNoiseTypeRelay;
     juce::WebSliderRelay webGlobalGainRelay;
+    juce::WebSliderRelay webLPCutoffRelay;
     
     //Webview GUI
     juce::WebBrowserComponent webViewGui;
@@ -50,6 +51,7 @@ private:
     //WEB PARAMETER ATTACHMENTS
     juce::WebToggleButtonParameterAttachment webNoiseTypeParameterAttachment;
     juce::WebSliderParameterAttachment webGlobalGainParameterAttachment;
+    juce::WebSliderParameterAttachment webLPCutoffParameterAttachment;
     
     juce::ComboBox noiseTypeComboBox;
     

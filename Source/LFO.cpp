@@ -32,7 +32,6 @@ void LFO::setSampleRate(double inSampleRate)
 
 void LFO::setRate(float newRate)
 {
-    newRate = 0.5f;
     rate = newRate;
 }
 
@@ -45,7 +44,7 @@ float LFO::getNextSample()
 {
     jassert(mSampleRate > 0.0f);
     
-    const float lfoRate = juce::jmap(rate, 0.0f, 1.0f, 0.1f, 10.0f);
+    const float lfoRate = juce::jmap(rate, 0.0f, 1.0f, 0.1f, 20.0f);
     const float phaseIncrement = lfoRate / static_cast<float>(mSampleRate);
     float lfoValue = std::sin(phase * twoPi);
     float currentDepth = smoothedDepth.getNextValue();
