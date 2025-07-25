@@ -57,6 +57,8 @@ TDN01AudioProcessorEditor::TDN01AudioProcessorEditor (TDN01AudioProcessor& p)
     webNoiseTypeRelay{ParameterID::noiseType.getParamID()},
     webGlobalGainRelay{ParameterID::globalGain.getParamID()},
     webLPCutoffRelay{ParameterID::lpCutoff.getParamID()},
+    webLPResonanceRelay{ParameterID::lpResonance.getParamID()},
+    webHPCutoffRelay{ParameterID::hpCutoff.getParamID()},
     webViewGui{
         juce::WebBrowserComponent::Options{}
               .withBackend(juce::WebBrowserComponent::Options::Backend::webview2)
@@ -71,13 +73,19 @@ TDN01AudioProcessorEditor::TDN01AudioProcessorEditor (TDN01AudioProcessor& p)
         .withOptionsFrom(webNoiseTypeRelay)
         .withOptionsFrom(webGlobalGainRelay)
         .withOptionsFrom(webLPCutoffRelay)
+        .withOptionsFrom(webLPResonanceRelay)
+        .withOptionsFrom(webHPCutoffRelay)
         },
         webNoiseTypeParameterAttachment{*p.apvts.getParameter(ParameterID::noiseType.getParamID()),
         webNoiseTypeRelay, nullptr},
         webGlobalGainParameterAttachment{*p.apvts.getParameter(ParameterID::globalGain.getParamID()),
         webGlobalGainRelay, nullptr},
         webLPCutoffParameterAttachment{*p.apvts.getParameter(ParameterID::lpCutoff.getParamID()),
-        webLPCutoffRelay, nullptr}
+        webLPCutoffRelay, nullptr},
+        webLPResonanceParameterAttachment{*p.apvts.getParameter(ParameterID::lpResonance.getParamID()),
+        webLPResonanceRelay, nullptr},
+        webHPCutoffParameterAttachment{*p.apvts.getParameter(ParameterID::hpCutoff.getParamID()),
+        webHPCutoffRelay, nullptr}
         
 {
     addAndMakeVisible(webViewGui);

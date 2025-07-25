@@ -14,6 +14,7 @@
 #include "PanelBase.h"
 #include "TDNSlider.h"
 #include "PanelDefines.h"
+#include "OtherLookAndFeel.h"
 
 class BottomPanel : public Panel {
     
@@ -26,9 +27,7 @@ class BottomPanel : public Panel {
                   
     private:
     
-        std::unique_ptr<TDNSlider> globalGainSlider;
-        const int sliderSize;;
-        std::unique_ptr<juce::Label> gainLabel;
-
+     
+    
     
 };

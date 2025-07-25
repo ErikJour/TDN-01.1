@@ -4,7 +4,15 @@
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" companyName="Jourgensen Audio"
               pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn">
   <MAINGROUP id="lKGPww" name="TDN-01">
+    <GROUP id="{C0D6C976-8DB9-2FCB-1144-1BF8D884CC9A}" name="UI Images">
+      <FILE id="XBR4pU" name="ERIK-JOURGENSEN_ICON_B_W.png" compile="0" resource="1"
+            file="../../../Clean/Erik Music/Logo A/ERIK-JOURGENSEN_ICON_B_W.png"/>
+    </GROUP>
     <GROUP id="{C47054B5-F67C-636E-B914-810BF1781C30}" name="ParameterControls">
+      <FILE id="MsCC9x" name="OtherLookandFeel.cpp" compile="1" resource="0"
+            file="Source/OtherLookandFeel.cpp"/>
+      <FILE id="c9uhP6" name="OtherLookandFeel.h" compile="0" resource="0"
+            file="Source/OtherLookandFeel.h"/>
       <FILE id="JUMPKi" name="TDNComboBox.cpp" compile="1" resource="0" file="Source/TDNComboBox.cpp"/>
       <FILE id="So72TD" name="TDNComboBox.h" compile="0" resource="0" file="Source/TDNComboBox.h"/>
       <FILE id="elvcyy" name="TDNSlider.cpp" compile="1" resource="0" file="Source/TDNSlider.cpp"/>

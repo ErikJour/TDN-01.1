@@ -15,6 +15,7 @@
 #include "TDNSlider.h"
 #include "PanelDefines.h"
 #include "TDNComboBox.h"
+#include "OtherLookandFeel.h"
 
 class RightPanel : public Panel {
     
@@ -26,6 +27,8 @@ class RightPanel : public Panel {
         void paint(juce::Graphics& g) override;
                   
     private:
+    OtherLookAndFeel otherLookAndFeel;
+
         std::unique_ptr<TDNSlider> lpCutoffSlider;
         std::unique_ptr<TDNSlider> lpResonanceSlider;
         std::unique_ptr<TDNSlider> hpCutoffSlider;
@@ -42,6 +45,10 @@ class RightPanel : public Panel {
         std::unique_ptr<TDNComboBox> noiseTypeComboBox;
     
         const int sliderSize;
-        const int comboBoxSize;;
+        const int comboBoxSize;
+        juce::Image logo;
+    
+    std::unique_ptr<TDNSlider> globalGainSlider;
+    std::unique_ptr<juce::Label> gainLabel;
     
 };

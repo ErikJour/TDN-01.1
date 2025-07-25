@@ -35,6 +35,9 @@ TDN01AudioProcessor::TDN01AudioProcessor()
     castParameter(apvts, ParameterID::lfoDepth, lfoDepthParam);
     castParameter(apvts, ParameterID::lfoRate, lfoRateParam);
     castParameter(apvts, ParameterID::lfoSource, lfoSourceParam);
+    castParameter(apvts, ParameterID::lfoBSource, lfoBSourceParam);
+    castParameter(apvts, ParameterID::lfoBDepth, lfoBDepthParam);
+    castParameter(apvts, ParameterID::lfoBRate, lfoBRateParam);
 }
 
 TDN01AudioProcessor::~TDN01AudioProcessor()
@@ -337,27 +340,52 @@ juce::AudioProcessorValueTreeState::ParameterLayout
         //LFO Depth
         layout.add(std::make_unique<juce::AudioParameterFloat>(
         ParameterID::lfoDepth,
-        "LFO Depth",
+        "LFO A Depth",
         juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f),
         0.0f,
         juce::AudioParameterFloatAttributes().withLabel("Depth")
         ));
 
-        //LFO Depth
+        //LFO Rate
         layout.add(std::make_unique<juce::AudioParameterFloat>(
         ParameterID::lfoRate,
-        "LFO Rate",
+        "LFO A Rate",
         juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f),
         0.0f,
         juce::AudioParameterFloatAttributes().withLabel("Depth")
         ));
         
-        //LFO SOurce
+        //LFO A Source
         layout.add(std::make_unique<juce::AudioParameterChoice>(
         ParameterID::lfoSource,
         "LFO Source",
         juce::StringArray { "Volume", "LP Cutoff", "HP Cutoff"},
         0));
+        
+        //LFO B Source
+        layout.add(std::make_unique<juce::AudioParameterChoice>(
+        ParameterID::lfoBSource,
+        "LFO B Source",
+        juce::StringArray { "Volume", "LP Cutoff", "HP Cutoff"},
+        0));
+        
+        //LFO B Depth
+        layout.add(std::make_unique<juce::AudioParameterFloat>(
+        ParameterID::lfoBDepth,
+        "LFO B Depth",
+        juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f),
+        0.0f,
+        juce::AudioParameterFloatAttributes().withLabel("Depth")
+        ));
+
+        //LFO B Rate
+        layout.add(std::make_unique<juce::AudioParameterFloat>(
+        ParameterID::lfoBRate,
+        "LFO B Rate",
+        juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f),
+        0.0f,
+        juce::AudioParameterFloatAttributes().withLabel("Rate")
+        ));
       
         return layout;
 }

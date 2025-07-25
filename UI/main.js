@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import * as JUCE from './javascript/index.js'
 import { createSpotlight, ambientLightA } from './light';
 import { levelBottomMesh, createSphere, createWall } from './objects';
-import { pinkMaterial, labelMaterial, whiteMaterial } from './materials.js';
+import { labelMaterial } from './materials.js';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 // import { particles, count, positions } from './noiseParticles.js';
@@ -156,20 +156,56 @@ const lpCutoffState = JUCE.getSliderState("lpCutoff");
 lpCutoffState.valueChangedEvent.addListener(() => {
 const filterCutoffValue = lpCutoffState.getNormalisedValue();
 console.log("LP Filter Cutoff: ", filterCutoffValue);
-
 //Experiment
 
 const normalizedCutoff = filterCutoffValue > 1 ? filterCutoffValue / 100 : filterCutoffValue;
-
 // Fog
 const minLight = 0.002;
 const maxLight = 0.04;
 const invertedIntensity = 1 - normalizedCutoff;
 scene.fog.density = Math.min(maxLight, Math.max(invertedIntensity * maxLight, minLight));
-
-//
-
  
+})
+
+//REZ UPDATES
+const resonanceState = JUCE.getSliderState("lpResonance");
+
+resonanceState.valueChangedEvent.addListener(() => {
+const resonanceValue = resonanceState.getNormalisedValue();
+console.log("Resonance: ", resonanceValue);
+
+camera.position.z = (resonanceValue * -45) + 48;
+
+
+})
+
+//HP Cut UPDATES
+const hpCutoffState = JUCE.getSliderState("hpCutoff");
+
+hpCutoffState.valueChangedEvent.addListener(() => {
+const hpValue = hpCutoffState.getNormalisedValue();
+console.log("HP: ", hpValue);
+
+
+    // Define warm-to-cool colors
+    // const warmColor = new THREE.Color('#4A4A4A'); // dark grayish
+    // const coolColor = new THREE.Color('#E5E5E5'); // light gray/white
+
+    // // Lerp wall colors
+    // const blendedColor = warmColor.clone().lerp(coolColor, hpValue);
+
+    // backWall.material.color.copy(blendedColor);
+    // frontWall.material.color.copy(blendedColor);
+    // leftWall.material.color.copy(blendedColor);
+    // rightWall.material.color.copy(blendedColor);
+    // ceiling.material.color.copy(blendedColor);
+    // levelBottomMesh.material.color.copy(blendedColor);
+
+    // // Also tweak ambient light for brightness
+    // ambientLightA.color.lerp(new THREE.Color('#FFFFFF'), hpValue);
+
+
+
 })
 
 
