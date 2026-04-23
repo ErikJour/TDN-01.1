@@ -36,9 +36,9 @@ cmake-build-*/
 
 # Node.js (Web UI)
 node_modules/
-UI/node_modules/
-UI/.vite/
-UI/dist/
+plugin/UI/node_modules/
+plugin/UI/.vite/
+plugin/UI/dist/
 
 # Logs
 npm-debug.log*
