@@ -1,4 +1,4 @@
-import { juceRelays} from "./juceRelays";
+import { juceRelays} from "../juceRelays";
 
 export function initializeFilter(scene, camera) {
     juceRelays.lpfCutoff.valueChangedEvent.addListener(() => {

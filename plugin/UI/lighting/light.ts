@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { neutraColorPalette } from './colors';
+import { neutraColorPalette } from '../colors';
 
 //SPOTLIGHTS
 function createSpotlight(x: number, y: number, z: number, intensity: number)

@@ -1,10 +1,10 @@
 import * as THREE from 'three'
 import * as JUCE from './javascript'
-import { ambientLightA, initializeLights } from './light.ts';
-import { initializeObjects } from './objects';
+import { ambientLightA, initializeLights } from './lighting/light.ts';
+import { initializeObjects } from './level/objects';
 import { NOISE_ELEMENTS } from "./noise/noiseParticlesNew";
 import { initializeJuceRelays } from "./juceRelays";
-import { initializeFilter } from "./filter";
+import { initializeFilter } from "./filters/filter";
 
 //=======================================================
 //Variables

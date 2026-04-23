@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { neutraColorPalette } from './colors';
+import { neutraColorPalette } from '../colors';
 
 //OBJECTS
 

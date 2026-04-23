@@ -6,7 +6,7 @@ import fragmentShader from './noiseFragmentShader.glsl?raw';
 //===========================================================
 //Variables
 //===========================================================
-const noiseClusterRadius: number = 10.0;
+const noiseClusterRadius: number = 7.0;
 
 //===========================================================
 //Uniforms
@@ -17,7 +17,7 @@ const noiseUniforms = {
     uGain:       { value: 0.5 },
     uEnvelope:   { value: 0.0 },
     uPointSize:  { value: 0.1 },
-    uColor:      { value: new THREE.Color(neutraColorPalette.sageGreen) },
+    uColor:      { value: new THREE.Color(neutraColorPalette.neutraCream) },
     uColorGrey:  { value: new THREE.Color(neutraColorPalette.warmGray) },
     uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
 
@@ -26,8 +26,6 @@ const noiseUniforms = {
     uLightPos2:   { value: new THREE.Vector3(0, 0, -25) },
     uLightColor2: { value: new THREE.Color(neutraColorPalette.terracotta) }
 };
-
-
 //===========================================================
 //Geometry
 //===========================================================
@@ -56,17 +54,12 @@ const noiseMaterial = new THREE.ShaderMaterial({
     depthTest: true,
     blending: THREE.AdditiveBlending,
 });
-
 //===========================================================
 //Meshes
 //===========================================================
 const noisePoints = new THREE.Points(noiseGeometry, noiseMaterial);
 noisePoints.scale.x = 0.75;  // squeeze to half width
-
-const noisePointZ: number = 0 + (noiseClusterRadius);
-
-noisePoints.position.set(0, 3.5, noisePointZ);
-
+noisePoints.position.set(0, 4, noiseClusterRadius);
 //===========================================================
 //Particle Generation
 //===========================================================
