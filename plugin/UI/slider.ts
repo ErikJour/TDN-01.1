@@ -1,17 +1,19 @@
 import * as THREE from 'three'
 import * as JUCE from './javascript'
 import { particleMaterial } from './materials'
+import { camera } from "./main";
 
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
-function createSlider(parameterID, 
-                    sliderX, 
-                    sliderY, 
-                    sliderZ,
+function createSlider(parameterID: string,
+                    sliderX: number,
+                    sliderY: number,
+                    sliderZ: number,
                     customMaterial = particleMaterial.clone(),
-                    mouse,
-                    raycaster)
+                    mouse: THREE.Vector2,
+                    raycaster: THREE.Raycaster
+                    )
 {
     const sliderParticleCount = 7;
     const sliderParticleSpacing = 0.2;
@@ -24,7 +26,7 @@ function createSlider(parameterID,
 
     for (let i = 0; i < sliderParticleSpacing; i++) {
         const sliderParticleGeometry = new THREE.SphereGeometry(sliderParticleSize, 16, 16);
-        const sliderParticleMesh = new THREE.Mesh(sliderParticleGeometry, sliderZ);
+        const sliderParticleMesh = new THREE.Mesh(sliderParticleGeometry, customMaterial);
         sliderParticleMesh.userData.isActive = false;
         sliderParticleGroup.add(sliderParticleMesh);
     }
@@ -48,18 +50,9 @@ function createSlider(parameterID,
             sliderIndicator.position.y = clicked.position.y;
             const sliderLevel = clicked.position.y / (sliderParticleCount * sliderParticleSpacing);
             sliderState.setNormalisedValue(sliderLevel);
-            updateParticles(sliderLevel * 100);
             }
         }
     })
-
-    
-
-
-
-
-
-    
 }
 
 // export { sliderParticleGroup }

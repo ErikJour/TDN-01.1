@@ -119,7 +119,6 @@ private:
 
     void valueTreePropertyChanged(juce::ValueTree&, const juce::Identifier&) override
     {
-        DBG("Parameter changed");
         parametersChanged.store(true);
     }
 

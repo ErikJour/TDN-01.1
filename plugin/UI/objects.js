@@ -5,37 +5,19 @@ import { neutraColorPalette } from './colors';
 
 const textureLoader = new THREE.TextureLoader();
 const stainedGlassTextureC = textureLoader.load('textures/stainedGlassWaveB.jpg');
-const stainedGlassTextureD = textureLoader.load('textures/Texturelabs_Glass_154XL.jpg');
 
 //DAY TWO TEXTURES
 const newNoiseTextureA = textureLoader.load('/textures/Greydient4A_texture1_8.jpg')
-const newNoiseTextureB = textureLoader.load('/textures/Greydient4A_texture1_11.jpg')
-const newNoiseTextureC = textureLoader.load('textures/AdobeStock_927583757_Preview.jpeg')
-const newNoiseTextureD = textureLoader.load('textures/AdobeStock_1163812336_Preview.jpeg')
-const newNoiseTextureE = textureLoader.load('textures/AdobeStock_1237336418_Preview.jpeg')
-const newNoiseTextureF = textureLoader.load('textures/AdobeStock_1243109284_Preview.jpeg')
-const newNoiseTextureG = textureLoader.load('textures/AdobeStock_1249128757_Preview.jpeg')
-const newNoiseTextureH = textureLoader.load('textures/AdobeStock_1335294749_Preview.jpeg')
-const newNoiseTextureI = textureLoader.load('textures/AdobeStock_1335294749_Preview.jpeg')
-
-//MATCAPS
-const matcapB = textureLoader.load('matcaps/0_export_6.png');
-const matcapA = textureLoader.load('matcaps/0_export_25.png')
-const matcapC = textureLoader.load('matcaps/1C70C6_09294C_0F3F73_52B3F6-512px.png')
-const matcapD = textureLoader.load('matcaps/4A6442_D0AB75_81CD94_181B12-512px.png')
 
 const levelMaterial = new THREE.MeshStandardMaterial({
     
     color: 'black'});
 
 levelMaterial.map = newNoiseTextureA
-// levelMaterial.matcap = matcapC
 
 const materialTwo = new THREE.MeshStandardMaterial({
     
 color: neutraColorPalette.terracotta});
-
-// const sphereMesh = new THREE.Mesh(sphereGeo, materialTwo);
 
 function createSphere (radius, width, height) 
 {
@@ -59,5 +41,48 @@ function createWall(width, height)
 const levelBottomGeometry = new THREE.PlaneGeometry( 100, 100 );
 
 const levelBottomMesh = new THREE.Mesh(levelBottomGeometry, levelMaterial);
+
+export function initializeObjects(scene) {
+    //ADD OBJECTS
+    const northSphere = createSphere (4, 30, 29);
+    northSphere.position.set(0, 22, -50);
+    scene.add(northSphere);
+    northSphere.material.map = stainedGlassTextureC;
+
+    const southSphere = createSphere (4, 30, 29);
+    southSphere.position.set(0, 22, 50);
+    scene.add(southSphere);
+
+    const westSphere = createSphere (4, 30, 29);
+    westSphere.position.set(-50, 22, 0);
+    scene.add(westSphere);
+
+    const eastSphere = createSphere (4, 30, 29);
+    eastSphere.position.set(50, 22, 0);
+    scene.add(eastSphere);
+
+    scene.add(levelBottomMesh);
+    const backWall = createWall(100, 100);
+    scene.add(backWall);
+    const leftWall = createWall(100, 100);
+    scene.add(leftWall);
+    const rightWall = createWall(100, 100);
+    scene.add(rightWall);
+    const frontWall = createWall(100, 100);
+    scene.add(frontWall);
+    const ceiling = createWall(100, 100);
+    scene.add(ceiling);
+    levelBottomMesh.position.set(0, -10, 0);
+    levelBottomMesh.rotation.x = -Math.PI / 2;
+    ceiling.position.set(0, 20, 0);
+    ceiling.rotation.x = Math.PI / 2;
+    backWall.position.set(0, 0, -50);
+    leftWall.rotateY(Math.PI * .5);
+    leftWall.position.set(-50, 0, 0);
+    rightWall.rotateY(Math.PI * 1.5);
+    rightWall.position.set(50, 0, 0);
+    frontWall.rotateY(Math.PI);
+    frontWall.position.set(0, 0, 50);
+}
 
 export { createSphere, levelBottomMesh, createWall };

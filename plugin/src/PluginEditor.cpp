@@ -149,8 +149,7 @@ void TDN01AudioProcessorEditor::sendEnvelopeValue(float newValue)
 auto TDN01AudioProcessorEditor::getResource(const juce::String& url) -> std::optional<Resource>
 {
     
-    std::cout << url << std::endl;
-    
+
     static const auto resourceFileRoot = juce::File{R"(/Users/ejourgensen/Projects/TDN-01/UI)"};
     
     const auto resourceToRetrieve =url == "/" ? "index.html" : url.fromFirstOccurrenceOf("/", false, false);

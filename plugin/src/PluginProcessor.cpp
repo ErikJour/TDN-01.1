@@ -202,9 +202,7 @@ void TDN01AudioProcessor::splitBufferByEvents(juce::AudioBuffer<float>& buffer, 
     int bufferOffset = 0;
     
     for (const auto metadata : midiMessages) {
-        
-//        DBG("Received MIDI: " << (int)metadata.data[0]);
-        
+
         int samplesThisSegment = metadata.samplePosition - bufferOffset;
         
         if (samplesThisSegment > 0) {
